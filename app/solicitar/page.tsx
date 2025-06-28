@@ -1,6 +1,6 @@
 "use client";
 
-import { TriangleAlert, User2Icon, User } from "lucide-react";
+import { TriangleAlert, User } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card";
 import {
   Table,
@@ -18,7 +18,7 @@ import { infoRequest } from '@/app/actions';
 import { useActionState } from "react";
 const initialState = { error: undefined, success: undefined, groupList: undefined };
 
-const page = () => {
+const RequestInfo = () => {
     const [state, formAction] = useActionState(infoRequest, initialState);
     
     return (
@@ -89,4 +89,4 @@ const page = () => {
     )
 }
 
-export default page
+export default RequestInfo;

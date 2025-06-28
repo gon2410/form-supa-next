@@ -27,7 +27,7 @@ export async function savePerson(prevState: ActionState, formData: FormData): Pr
     const leaderId = formData.get("leader_id") as string;
 
     // check if that person already exists 
-    let { data, error } = await supabase.from('person').select('id').ilike('name', name).ilike('lastname', lastname);
+    const { data, error } = await supabase.from('person').select('id').ilike('name', name).ilike('lastname', lastname);
 
     if (data?.length != 0) {
         return {error: name + " " + lastname + " ya está registrado"}
@@ -37,10 +37,16 @@ export async function savePerson(prevState: ActionState, formData: FormData): Pr
     
     if (role == 'leader') {
         //save leader
-        const { error } = await supabase.from('person').insert([{ name: name, lastname: lastname, menu: menu, email: email, is_leader: true }])
+        const { error: leaderError} = await supabase.from('person').insert([{ name: name, lastname: lastname, menu: menu, email: email, is_leader: true }])
+        if (leaderError) {
+            return {error: "Algo salió mal."}
+        }
     } else {
         // save companion
-        const { error } = await supabase.from('person').insert([{ name: name, lastname: lastname, menu: menu, is_leader: false, companion_of: leaderId }])
+        const { error: companionError } = await supabase.from('person').insert([{ name: name, lastname: lastname, menu: menu, is_leader: false, companion_of: leaderId }])
+        if (companionError) {
+            return {error: "Algo salió mal."}
+        }
     }
 
     return {success: "¡Confirmado! En la sección 'Solicitar información' podés verificar tu inscripción y la de tus acompañantes, si los hay."}
@@ -49,7 +55,7 @@ export async function savePerson(prevState: ActionState, formData: FormData): Pr
 export async function infoRequest(prevState: ActionState, formData: FormData): Promise<ActionState> {
     const email = formData.get("email") as string;
 
-    const {data, error} = await supabase.from("person").select("*").eq("email", email).single();
+    const {data} = await supabase.from("person").select("*").eq("email", email).single();
 
     if (data === null || data === undefined) {
         return {error: "No pudimos encontrar esa dirección de e-mail."}
@@ -57,7 +63,7 @@ export async function infoRequest(prevState: ActionState, formData: FormData): P
 
     const leader = data as Person;
 
-    const {data: companions, error: companionError} = await supabase.from("person").select("*").eq("companion_of", data.id);
+    const {data: companions} = await supabase.from("person").select("*").eq("companion_of", data.id);
 
     const groupList = [leader];
     

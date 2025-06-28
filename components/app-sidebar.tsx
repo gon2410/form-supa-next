@@ -23,29 +23,29 @@ export function AppSidebar() {
                         <SidebarMenu>
                             <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <a href="/">
+                                <Link href="/">
                                     <HomeIcon />
                                 <span>Inicio</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                             </SidebarMenuItem>
                             
                             <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <a href="/solicitar">
+                                <Link href="/solicitar">
                                     <NotebookIcon />
                                 <span>Solicitar información</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                             </SidebarMenuItem>
 
 
                             <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <a href="/error">
+                                <Link href="/error">
                                     <BanIcon />
                                 <span>Reportar error</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                             </SidebarMenuItem>
 
