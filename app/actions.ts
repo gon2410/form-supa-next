@@ -101,7 +101,7 @@ export async function savePerson(prevState: ActionState, formData: FormData): Pr
     }
 
     // send it
-    return {success: "¡Confirmado! En la sección 'Solicitar información' (arriba a la izquierda) podés verificar tu inscripción y la de tus acompañantes, si los hay."}
+    return {success: "¡Confirmado " + name + "! En la sección 'Solicitar información' (arriba a la izquierda) podés verificar tu inscripción y la de tus acompañantes, si los hay."}
 };
 
 // function to retrieve person or group of persons related with an email. It corresponds with the "Solicitar información" page.
