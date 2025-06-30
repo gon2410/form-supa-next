@@ -42,9 +42,9 @@ const SaveForm = () => {
                         <DialogHeader>
                         <DialogTitle>Como me inscribo?</DialogTitle>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><strong>Si asiste solo:</strong> complete los campos y elija la opción <u>Voy por mi cuenta / Responsable de grupo</u>.</li>
+                            <li><strong>Si asiste solo:</strong> complete los campos y elija la opción <u>Voy por mi cuenta / responsable de grupo</u>.</li>
                             <li><strong>Si asiste con acompañantes:</strong> primero confirme su asistencia eligiendo la opción <u>Voy por mi cuenta
-                            / Responsable de grupo</u>. Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo
+                            / responsable de grupo</u>. Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo
                             la opción <u>Soy acompañante</u> y seleccionando su nombre como responsable de grupo.</li>
                             </ul>
                         </DialogHeader>
