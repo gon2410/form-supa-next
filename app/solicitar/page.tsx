@@ -2,15 +2,7 @@
 
 import { TriangleAlert, User } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -22,8 +14,8 @@ const RequestInfo = () => {
     const [state, formAction] = useActionState(infoRequest, initialState);
     
     return (
-        <div>
-            <Card className="m-3 border-black">
+        <div className="max-w-xl p-5">
+            <Card className="border-black">
                 <CardHeader>
                     <CardTitle className="flex gap-5"><TriangleAlert />ATENCIÓN</CardTitle>
                     <CardDescription>Para que la solicitud de información sea procesada, es
@@ -48,10 +40,11 @@ const RequestInfo = () => {
                 )}
 
                 {state.success && (
-                    <Card className="m-3 border-black">
+                    <>
+                        <Card className="border-black">
                         <CardHeader>
                             <CardTitle>Información</CardTitle>
-                            <CardDescription>Listado de persona o personas registrados</CardDescription>
+                            <CardDescription>Listado de persona o personas registradas</CardDescription>
                             <CardContent>
                                 <Table>
                                     <TableCaption>Miembro o miembros del grupo</TableCaption>
@@ -64,26 +57,21 @@ const RequestInfo = () => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {state.groupList?.map((p) => (
-                                            <TableRow key={p.id}>
+                                        {state.groupList?.map((person) => (
+                                            <TableRow key={person.id}>
                                                 <TableCell><User /></TableCell>
-                                                <TableCell>{p.lastname}</TableCell>
-                                                <TableCell>{p.name}</TableCell>
-                                                <TableCell>{p.menu}</TableCell>
+                                                <TableCell>{person.lastname}</TableCell>
+                                                <TableCell>{person.name}</TableCell>
+                                                <TableCell>{person.menu}</TableCell>
                                             </TableRow>
                                         ))}
-                                     
                                     </TableBody>
                                 </Table>
-                                <ul>
-                               
-                                </ul>
                             </CardContent>
                         </CardHeader>
-                    </Card>
+                        </Card>
+                    </>
                 )}
- 
-
             </div>
         </div>
     )

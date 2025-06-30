@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { savePerson } from '@/app/actions';
 import { useActionState, useState } from 'react';
@@ -23,9 +24,6 @@ const SaveForm = () => {
     const [state, formAction] = useActionState(savePerson, initialState);
     const [personArray, setPersonArray] = useState<Person[]>([]);
 
-    const [selectMenu, setSelectMenu] = useState("Elegir");
-    const [selectLeader, setSelectLeader] = useState("Elegir");
-
     useEffect(() => {
         async function fetchPersons() {
             const { data: persons} = await supabase.from("person").select("id, name, lastname").is('is_leader', true);
@@ -34,36 +32,40 @@ const SaveForm = () => {
         fetchPersons();
     }, [role])
 
-    useEffect(() => {
-        if (state?.success) {
-            setSelectMenu("Elegir");
-            setSelectLeader("Elegir");
-        } else {
-            setSelectMenu("Elegir");
-            setSelectLeader("Elegir");
-        }
-      
-    }, [state])
-
     return (
-        <div className='h-full p-3'>
-            <h3 className='text-center font-bold mb-5'>Confirmar asistencia</h3>
+        <div className='h-full max-w-xl mt-1 p-5'>
+            <h3 className='text-center font-bold'>Confirmar asistencia</h3>
+            <div className="text-center mb-5">
+                <Dialog>
+                    <DialogTrigger className="font-bold text-xs text-gray-500 underline">Como me inscribo?</DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                        <DialogTitle>Como me inscribo?</DialogTitle>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li><strong>Si asiste solo:</strong> complete los campos y elija la opción "Voy por mi cuenta / Responsable de grupo".</li>
+                            <li><strong>Si asiste con acompañantes:</strong> primero confirme su asistencia eligiendo la opción "Voy por mi cuenta / Responsable de grupo". Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo la opción "Soy acompañante" y seleccionando su nombre como responsable de grupo.</li>
+                            </ul>
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
+            </div>
+
             <form action={formAction}>
                 <div className='grid gap-5'>
-                    <div className="flex gap-1.5">
+                    <div className="grid gap-2">
                         <Label htmlFor='name'>Nombre</Label>
                         <Input id='name' name='name' placeholder='Juan' autoComplete='true' required />
                     </div>
-                    <div className='flex gap-1.5'>
+                    <div className='grid gap-2'>
                         <Label htmlFor='lastname'>Apellido</Label>
                         <Input id='lastname' name='lastname' placeholder='Perez' autoComplete='true' required />
 
                     </div>
-                    <div className='flex gap-5.5'>
+                    <div className='grid gap-2'>
                         <Label htmlFor='menu'>Menú</Label>
                         <Select name='menu'>
-                            <SelectTrigger className="w-[19rem]" id='menu'>
-                                <SelectValue placeholder={selectMenu} />
+                            <SelectTrigger id='menu'>
+                                <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="sin_condicion">Sin Condición</SelectItem>
@@ -83,21 +85,21 @@ const SaveForm = () => {
 
                             <div className='flex gap-3'>
                                 <RadioGroupItem id="option-two" value="companion" onClick={() => setRol("companion")} />
-                                <Label htmlFor='option-two'>Acompaño a otra persona</Label>
+                                <Label htmlFor='option-two'>Soy acompañante / soy miembro de grupo</Label>
                             </div>
                         </RadioGroup>
                     </div>
 
-                    <div className='flex gap-4.5'>
-                        <Label htmlFor='email' className='w-[3.1rem]'>E-mail</Label>
+                    <div className='grid gap-2'>
+                        <Label htmlFor='email'>Correo electrónico</Label>
                         <Input type='email' id='email' name='email' placeholder='juanperez@hotmail.com' autoComplete='true' required disabled={role != "leader"} />
                     </div>
 
-                    <div className='flex gap-3'>
-                        <Label htmlFor='leader' className='w-[8.2rem]'>Soy acompañante de</Label>
+                    <div className='grid gap-2'>
+                        <Label htmlFor='leader'>Soy acompañante de</Label>
                         <Select name='leader_id' disabled={role != "companion"} required>
-                            <SelectTrigger id='leader' className="w-[13.5rem]">
-                                <SelectValue placeholder={selectLeader} />
+                            <SelectTrigger id='leader'>
+                                <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
                             <SelectContent>
                                 {personArray.map(person => (
@@ -108,8 +110,8 @@ const SaveForm = () => {
                     </div>
                 </div>
 
-                <div className='text-center mt-5'>
-                    <Button type='submit' className="bg-green-600 hover:bg-green-700">Confirmar</Button>
+                <div className='text-center mt-10'>
+                    <Button type='submit' variant={"default"}>Confirmar</Button>
 
                     {state.error && <p className="text-red-600 mt-5 text-center">{state.error}</p>}
                     {state.success && <p className="text-green-600 mt-5 text-center">{state.success}</p>}

@@ -28,10 +28,10 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 					<div className="grid grid-cols-[auto] w-full">
 						<main className="flex flex-col h-screen overflow-auto">
 							<SidebarTrigger />
+
 							{children}
 						</main>
 					</div>
-					
 				</SidebarProvider>
 			</body>
 		</html>
