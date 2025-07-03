@@ -14,7 +14,7 @@ const RequestInfo = () => {
     const [state, formAction] = useActionState(infoRequest, initialState);
     
     return (
-        <div className="max-w-xl p-5">
+        <div className='h-full flex flex-col p-5'>
             <Card className="border-black">
                 <CardHeader>
                     <CardTitle className="flex gap-5"><TriangleAlert />ATENCIÓN</CardTitle>

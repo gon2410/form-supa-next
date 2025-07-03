@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { savePerson } from '@/app/actions';
 import { useActionState, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 const initialState = { error: undefined, success: undefined };
 
@@ -20,10 +20,12 @@ interface Person {
 }
 
 const SaveForm = () => {
+    const supabase = createClient();
     const [role, setRol] = useState("leader");
     const [state, formAction] = useActionState(savePerson, initialState);
     const [personArray, setPersonArray] = useState<Person[]>([]);
 
+    // refresh leaders list
     useEffect(() => {
         async function fetchPersons() {
             const { data: persons} = await supabase.from("person").select("id, name, lastname").is('is_leader', true);
@@ -33,24 +35,22 @@ const SaveForm = () => {
     }, [role])
 
     return (
-        <div className='h-full max-w-xl mt-1 p-5'>
+        <div className='h-full flex flex-col items-center'>
             <h3 className='text-center font-bold'>Confirmar asistencia</h3>
-            <div className="text-center mb-5">
-                <Dialog>
-                    <DialogTrigger className="font-bold text-xs text-gray-500 underline">Como me inscribo?</DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                        <DialogTitle>Como me inscribo?</DialogTitle>
-                            <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><strong>Si asiste solo:</strong> complete los campos y elija la opción <u>Voy por mi cuenta / responsable de grupo</u>.</li>
-                            <li><strong>Si asiste con acompañantes:</strong> primero confirme su asistencia eligiendo la opción <u>Voy por mi cuenta
-                            / responsable de grupo</u>. Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo
-                            la opción <u>Soy acompañante</u> y seleccionando su nombre como responsable de grupo.</li>
-                            </ul>
-                        </DialogHeader>
-                    </DialogContent>
-                </Dialog>
-            </div>
+            <Dialog>
+                <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-15">Como me inscribo?</DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                    <DialogTitle>Como me inscribo?</DialogTitle>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li><strong>Si asiste solo:</strong> complete los campos y elija la opción <u>Voy por mi cuenta / responsable de grupo</u>.</li>
+                        <li><strong>Si asiste con acompañantes:</strong> primero confirme su asistencia eligiendo la opción <u>Voy por mi cuenta
+                        / responsable de grupo</u>. Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo
+                        la opción <u>Soy acompañante</u> y seleccionando su nombre como responsable de grupo.</li>
+                        </ul>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
 
             <form action={formAction}>
                 <div className='grid gap-5'>
@@ -99,7 +99,7 @@ const SaveForm = () => {
 
                     <div className='grid gap-2'>
                         <Label htmlFor='leader'>Soy acompañante de</Label>
-                        <Select name='leader_id' disabled={role != "companion"} required>
+                        <Select name='leader_id' disabled={role !== "companion"} required>
                             <SelectTrigger id='leader'>
                                 <SelectValue placeholder="Elegir" />
                             </SelectTrigger>

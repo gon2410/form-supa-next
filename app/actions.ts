@@ -1,6 +1,8 @@
 "use server";
 
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 type ActionState = {
   error?: string;
@@ -21,7 +23,7 @@ const menuOptions = ["sin_condicion", "vegetariano", "vegano", "celiaco"];
 const roleOptions = ["leader", "companion"]
 
 export async function savePerson(prevState: ActionState, formData: FormData): Promise<ActionState> {
-
+    const supabase = createClient();
     // making sure everything submitted is correct. The html inputs are required but just in case.
     const name = formData.get("name");
     if (typeof name !== "string" || name.trim() === "") {
@@ -106,6 +108,8 @@ export async function savePerson(prevState: ActionState, formData: FormData): Pr
 
 // function to retrieve person or group of persons related with an email. It corresponds with the "Solicitar información" page.
 export async function infoRequest(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    const supabase = createClient();
+
     // retrieving email submitted
     const email = formData.get("email");
 
@@ -146,3 +150,5 @@ export async function infoRequest(prevState: ActionState, formData: FormData): P
     // send it
     return {success: "success", groupList}
 }
+
+
