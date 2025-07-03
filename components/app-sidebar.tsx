@@ -18,26 +18,26 @@ export async function AppSidebar() {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/">
+                                    <a href="/">
                                         <HomeIcon />
                                     <span>Inicio</span>
-                                    </Link>
+                                    </a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/solicitar">
+                                    <a href="/solicitar">
                                         <NotebookIcon />
                                     <span>Solicitar información</span>
-                                    </Link>
+                                    </a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/error">
+                                    <a href="/error">
                                         <BanIcon />
                                     <span>Reportar error</span>
-                                    </Link>
+                                    </a>
                                 </SidebarMenuButton>
                                 </SidebarMenuItem>
                         </SidebarMenu>
@@ -48,10 +48,10 @@ export async function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="/admin">
+                                <a href="/admin">
                                     <User />
                                 <span>Panel de administración</span>
-                                </Link>
+                                </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarGroupContent>
