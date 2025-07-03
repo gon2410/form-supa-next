@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 
 export async function AppSidebar() {
     const supabase = await createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const {data} = await supabase.auth.getUser();
 
     return (
         <Sidebar>

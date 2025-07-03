@@ -20,7 +20,6 @@ interface Person {
 }
 
 const SaveForm = () => {
-    const supabase = createClient();
     const [role, setRol] = useState("leader");
     const [state, formAction] = useActionState(savePerson, initialState);
     const [personArray, setPersonArray] = useState<Person[]>([]);
@@ -28,6 +27,7 @@ const SaveForm = () => {
     // refresh leaders list
     useEffect(() => {
         async function fetchPersons() {
+            const supabase = createClient();
             const { data: persons} = await supabase.from("person").select("id, name, lastname").is('is_leader', true);
             setPersonArray(persons as Person[])
         }

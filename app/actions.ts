@@ -1,8 +1,6 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/client";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 type ActionState = {
   error?: string;
