@@ -1,6 +1,6 @@
 import { BanIcon, HomeIcon, NotebookIcon, Power, User } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import Link from "next/link"
+// import Link from "next/link"
 import { signOut } from "@/app/login/actions"
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "./ui/button";
