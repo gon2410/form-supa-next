@@ -33,6 +33,7 @@ const SaveForm = () => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add`, {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -76,12 +77,13 @@ const SaveForm = () => {
     useEffect(() => {
         async function getGuests() {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
-                method: "GET"
+                method: "GET",
+                credentials: "include"
             })
 
             if (response.ok) {
                 const guests = await response.json() as Leader[];
-                setLeadersList(guests)
+                setLeadersList(guests);
             }
         }
         getGuests();
