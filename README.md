@@ -1,6 +1,6 @@
 # RSVP Next.js frontend project
-This is a web application that allows guests to confirm their attendance to a small event by submitting only their first name, last name, and menu preference. Also, The event administrator can manage attendees through a protected admin panel, which is only accessible to authenticated users.
-The idea is to make it simpler to the attende and event administrator.
+This is a web application that allows guests to confirm their attendance to a small event by submitting only their first name, last name, and menu preference. Also, the event administrator can manage attendees through a protected admin panel, which is only accessible to authenticated users.
+The idea is to make it simpler for the attendee and the event administrator.
 
 **It is designed for small events like weddings, birthdays, etc**
 
