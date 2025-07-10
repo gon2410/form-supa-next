@@ -1,4 +1,4 @@
-import { BanIcon, HomeIcon, NotebookIcon, Power, User } from "lucide-react"
+import { BanIcon, HomeIcon, NotebookIcon, User } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import Link from "next/link"
 
