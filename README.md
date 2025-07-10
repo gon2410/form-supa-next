@@ -5,7 +5,7 @@ The idea is to make it simpler for the attendee and the event administrator.
 **It is designed for small events like weddings, birthdays, etc**
 
 ## How does it work?
-- **Attending:**
+- **Attending alone:**
     The user simply submits their name, lastname, menu and email address. That's it.
 
 - **Attending with a group:**
