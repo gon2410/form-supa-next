@@ -1,7 +1,15 @@
-# NextJS frontend project
+# RSVP Next.js frontend project
+This is a web application that allows guests to confirm their attendance to a small event by submitting only their first name, last name, and menu preference.
 
 ## Description
-It's a web application that lets people confirm their attendance to
-a small event submitting only their name, lastname and menu.
+The event administrator can manage attendees through a protected admin panel, which is only accessible to authenticated users.
 
-It's backend projects is this one: https://github.com/gon2410/rsvp_backend
+🔗 The backend for this project can be found here:
+https://github.com/gon2410/rsvp_backend
+
+## Stack
+- Next.js (frontend)
+    - ShadCN
+    - Tailwind
+- FastAPI (backend)
+    - Supabase (DB)
