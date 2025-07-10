@@ -4,13 +4,13 @@ The idea is to make it simpler for the attendee and the event administrator.
 
 **It is designed for small events like weddings, birthdays, etc**
 
-## How does it work?
+## :grey_question: How does it work?
 - **Attending alone:**
     The user simply submits their name, lastname, menu and email address. That's it.
 
 - **Attending with a group:**
     The group leader submits name, lastname, menu and email address. Then, the companions
-    submit their own name, lastname and menu and select the leader's name from the dropdown list. Done!.
+    submit their own name, lastname and menu and select the leader's name from the dropdown list. Done!
 
 
 ## Stack
