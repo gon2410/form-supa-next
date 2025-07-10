@@ -5,6 +5,7 @@ import { Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import EditGuestDialog from "./edit-guest-dialog";
 
 interface Props {
     leader_id: number;
@@ -59,6 +60,7 @@ const GroupMembersDialog = ({ leader_id, name, lastname }: Props) => {
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead>#</TableHead>
                                     <TableHead>Apellido</TableHead>
                                     <TableHead>Nombre</TableHead>
                                     <TableHead>Menú</TableHead>
@@ -67,6 +69,7 @@ const GroupMembersDialog = ({ leader_id, name, lastname }: Props) => {
                             <TableBody>
                                 {group.map((member) => (
                                     <TableRow key={member.id}>
+                                        {/* <TableCell><EditGuestDialog guest_id={member.id} name={member.name} lastname={member.lastname} menu={member.menu}/></TableCell> */}
                                         <TableCell>{member.lastname}</TableCell>
                                         <TableCell>{member.name}</TableCell>
                                         <TableCell>{member.menu}</TableCell>

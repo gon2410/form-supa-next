@@ -6,36 +6,89 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
-import { savePerson } from '@/app/actions';
-import { useActionState, useState } from 'react';
+import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { createClient } from '@/lib/supabase/client';
 
-const initialState = { error: undefined, success: undefined };
-
-interface Person {
+interface Leader {
     id: number;
     name: string;
     lastname: string;
 }
 
 const SaveForm = () => {
-    const [role, setRol] = useState("leader");
-    const [state, formAction] = useActionState(savePerson, initialState);
-    const [personArray, setPersonArray] = useState<Person[]>([]);
 
-    // refresh leaders list
-    useEffect(() => {
-        async function fetchPersons() {
-            const supabase = createClient();
-            const { data: persons} = await supabase.from("person").select("id, name, lastname").is('is_leader', true);
-            setPersonArray(persons as Person[])
+    const [name, setName] = useState<string>("");
+    const [lastname, setLastname] = useState<string>("");
+    const [menu, setMenu] = useState<string>("");
+    const [role, setRole] = useState<string>("leader");
+    const [email, setEmail] = useState<string>("");
+    const [leader, setLeader] = useState<string>("");
+
+    const [error, setError] = useState<string>("");
+    const [success, setSuccess] = useState<string>("");
+
+    const [leadersList, setLeadersList] = useState<Leader[]>([]);
+
+    const submitAction = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: name,
+                    lastname: lastname,
+                    menu: menu,
+                    role: role,
+                    email: email,
+                    leader: leader,
+                }),
+            })
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setName("");
+                setLastname("");
+                setMenu("");
+                setRole("leader");
+                setEmail("");
+                setLeader("");
+
+                setSuccess("");
+                setError(data.detail || "Algo salió mal. Intente de nuevo")
+            } else {
+                setName("");
+                setLastname("");
+                setMenu("");
+                setRole("leader");
+                setEmail("");
+                setLeader("");
+                setError("")
+                setSuccess(data);
+            }
+        } catch (error) {
+            console.log(error)
         }
-        fetchPersons();
+    }
+
+    useEffect(() => {
+        async function getGuests() {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
+                method: "GET"
+            })
+
+            if (response.ok) {
+                const guests = await response.json() as Leader[];
+                setLeadersList(guests)
+            }
+        }
+        getGuests();
     }, [role])
 
     return (
-        <div className='h-full flex flex-col items-center'>
+        <div className='h-full flex flex-col'>
             <h3 className='text-center font-bold'>Confirmar asistencia</h3>
             <Dialog>
                 <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-15">Como me inscribo?</DialogTrigger>
@@ -52,20 +105,21 @@ const SaveForm = () => {
                 </DialogContent>
             </Dialog>
 
-            <form action={formAction}>
-                <div className='grid gap-5'>
+            <form action={submitAction}>
+                <div className='grid gap-5 p-5'>
                     <div className="grid gap-2">
                         <Label htmlFor='name'>Nombre</Label>
-                        <Input id='name' name='name' placeholder='Juan' autoComplete='true' required />
+                        <Input id='name' placeholder='Juan' value={name} onChange={(e) => setName(e.target.value)} autoComplete='true' required />
                     </div>
+
                     <div className='grid gap-2'>
                         <Label htmlFor='lastname'>Apellido</Label>
-                        <Input id='lastname' name='lastname' placeholder='Perez' autoComplete='true' required />
-
+                        <Input id='lastname' placeholder='Perez' value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete='true' required />
                     </div>
+
                     <div className='grid gap-2'>
                         <Label htmlFor='menu'>Menú</Label>
-                        <Select name='menu'>
+                        <Select name='menu' value={menu} onValueChange={(value) => setMenu(value)}>
                             <SelectTrigger id='menu'>
                                 <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
@@ -81,12 +135,12 @@ const SaveForm = () => {
                     <div className='grid gap-3'>
                         <RadioGroup defaultValue='leader' name='role' className='flex flex-col justify-center items-center'>
                             <div className='flex gap-3'>
-                                <RadioGroupItem id="option-one" value="leader" onClick={() => setRol("leader")} />
+                                <RadioGroupItem id="option-one" value="leader" onClick={() => setRole("leader")} />
                                 <Label htmlFor='option-one'>Voy por mi cuenta / responsable de grupo</Label>
                             </div>
 
                             <div className='flex gap-3'>
-                                <RadioGroupItem id="option-two" value="companion" onClick={() => setRol("companion")} />
+                                <RadioGroupItem id="option-two" value="companion" onClick={() => setRole("companion")} />
                                 <Label htmlFor='option-two'>Soy acompañante / soy miembro de grupo</Label>
                             </div>
                         </RadioGroup>
@@ -94,18 +148,18 @@ const SaveForm = () => {
 
                     <div className='grid gap-2'>
                         <Label htmlFor='email'>Correo electrónico</Label>
-                        <Input type='email' id='email' name='email' placeholder='juanperez@hotmail.com' autoComplete='true' required disabled={role != "leader"} />
+                        <Input type='email' id='email' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required disabled={role != "leader"} />
                     </div>
 
                     <div className='grid gap-2'>
                         <Label htmlFor='leader'>Soy acompañante de</Label>
-                        <Select name='leader_id' disabled={role !== "companion"} required>
+                        <Select value={leader} onValueChange={(value) => {setLeader(value)}} disabled={role !== "companion"} required>
                             <SelectTrigger id='leader'>
                                 <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
                             <SelectContent>
-                                {personArray.map(person => (
-                                    <SelectItem key={person.id} value={person.id.toString()}>{person.lastname}, {person.name}</SelectItem>
+                                {leadersList.map(leader => (
+                                    <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -115,8 +169,8 @@ const SaveForm = () => {
                 <div className='text-center mt-10'>
                     <Button type='submit' variant={"default"}>Confirmar</Button>
 
-                    {state.error && <p className="text-red-600 mt-5 text-center">{state.error}</p>}
-                    {state.success && <p className="text-green-600 mt-5 text-center">{state.success}</p>}
+                    {error && <p className="text-red-600 mt-5 text-center">{error}</p>}
+                    {success && <p className="text-green-600 mt-5 text-center">{success}</p>}
                 </div>
             </form>
         </div>

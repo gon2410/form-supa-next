@@ -6,13 +6,51 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { infoRequest } from '@/app/actions';
-import { useActionState } from "react";
-const initialState = { error: undefined, success: undefined, groupList: undefined };
+import { useState } from "react";
+
+interface Guest {
+    id: number;
+    name: string;
+    lastname: string;
+    menu: string
+}
 
 const RequestInfo = () => {
-    const [state, formAction] = useActionState(infoRequest, initialState);
-    
+    const [email, setEmail] = useState<string>("");
+    const [group, setGroup] = useState<Guest[]>([]);
+
+    const [error, setError] = useState<string>("");
+    const [success, setSuccess] = useState<string>("");
+
+    const submitAction = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getgroup`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                }),
+            })
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setSuccess("")
+                setEmail("");
+                setError(data.detail || "Algo salió mal. Intente de nuevo")
+            } else {
+                setError("");
+                setEmail("");
+                setGroup(data);
+                setSuccess("success");
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className='h-full flex flex-col p-5'>
             <Card className="border-black">
@@ -25,52 +63,50 @@ const RequestInfo = () => {
                 </CardHeader>
             </Card>
 
-            <form action={formAction} className="grid gap-2 justify-center mt-10">
+            <form action={submitAction} className="grid gap-2 justify-center mt-10">
                 <div className="grid gap-2">
                     <Label htmlFor="email">Direccion de e-mail</Label>
-                    <Input type="email" id="email" name="email" required/>
+                    <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>
                 </div>
                 <div className="grid justify-center">
                     <Button type="submit" variant={"outline"}>Obtener</Button>
                 </div>
             </form>
             <div>
-                {state.error && (
-                    <p className="text-red-600 mt-5 text-center">{state.error}</p>
+                {error && (
+                    <p className="text-red-600 mt-5 text-center">{error}</p>
                 )}
 
-                {state.success && (
-                    <>
-                        <Card className="border-black">
-                        <CardHeader>
-                            <CardTitle>Información</CardTitle>
-                            <CardDescription>Listado de persona o personas registradas</CardDescription>
-                            <CardContent>
-                                <Table>
-                                    <TableCaption>Miembro o miembros del grupo</TableCaption>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead></TableHead>
-                                            <TableHead>Apellido</TableHead>
-                                            <TableHead>Nombre</TableHead>
-                                            <TableHead>Menú</TableHead>
+                {success && (
+                    <Card className="border-black mt-5">
+                    <CardHeader>
+                        <CardTitle>Información</CardTitle>
+                        <CardDescription>Listado de persona o personas registradas</CardDescription>
+                        <CardContent>
+                            <Table>
+                                <TableCaption>Miembro o miembros del grupo</TableCaption>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead></TableHead>
+                                        <TableHead>Apellido</TableHead>
+                                        <TableHead>Nombre</TableHead>
+                                        <TableHead>Menú</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {group.map((member) => (
+                                        <TableRow key={member.id}>
+                                            <TableCell><User /></TableCell>
+                                            <TableCell>{member.lastname}</TableCell>
+                                            <TableCell>{member.name}</TableCell>
+                                            <TableCell>{member.menu}</TableCell>
                                         </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {state.groupList?.map((person) => (
-                                            <TableRow key={person.id}>
-                                                <TableCell><User /></TableCell>
-                                                <TableCell>{person.lastname}</TableCell>
-                                                <TableCell>{person.name}</TableCell>
-                                                <TableCell>{person.menu}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </CardHeader>
-                        </Card>
-                    </>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </CardHeader>
+                    </Card>
                 )}
             </div>
         </div>

@@ -1,14 +1,8 @@
 import { BanIcon, HomeIcon, NotebookIcon, Power, User } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-// import Link from "next/link"
-import { signOut } from "@/app/login/actions"
-import { createClient } from "@/lib/supabase/server";
-import { Button } from "./ui/button";
+import Link from "next/link"
 
-export async function AppSidebar() {
-    const supabase = await createClient();
-    const {data} = await supabase.auth.getUser();
-
+export function AppSidebar() {
     return (
         <Sidebar>
             <SidebarContent className="list-none">
@@ -18,26 +12,26 @@ export async function AppSidebar() {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/">
+                                    <Link href="/">
                                         <HomeIcon />
                                     <span>Inicio</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/solicitar">
+                                    <Link href="/solicitar">
                                         <NotebookIcon />
                                     <span>Solicitar información</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/error">
+                                    <Link href="/error">
                                         <BanIcon />
                                     <span>Reportar error</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                                 </SidebarMenuItem>
                         </SidebarMenu>
@@ -48,25 +42,17 @@ export async function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <a href="/admin">
+                                <Link href="/admin">
                                     <User />
                                 <span>Panel de administración</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                {data.user ?
-                    <div className="flex justify-center">
-                        <form action={signOut}>
-                            <Button type="submit" variant={"outline"} className="flex border-red-500 w-[15rem]">Cerrar sesión<Power /></Button>
-                        </form>
-                    </div>
-                :
-                    <p></p>
-                }
+   
             </SidebarFooter>
         </Sidebar>
     )
