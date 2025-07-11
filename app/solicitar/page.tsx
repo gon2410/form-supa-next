@@ -1,6 +1,6 @@
 "use client";
 
-import { TriangleAlert, User } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Label } from "@/components/ui/label";
@@ -88,17 +88,15 @@ const RequestInfo = () => {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead></TableHead>
-                                        <TableHead>Apellido</TableHead>
-                                        <TableHead>Nombre</TableHead>
+                                        <TableHead>Invitado</TableHead>
                                         <TableHead>Menú</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {group.map((member) => (
+                                    {group.map((member, index) => (
                                         <TableRow key={member.id}>
-                                            <TableCell><User /></TableCell>
-                                            <TableCell>{member.lastname}</TableCell>
-                                            <TableCell>{member.name}</TableCell>
+                                            <TableCell>{index + 1}</TableCell>
+                                            <TableCell>{member.lastname}, {member.name}</TableCell>
                                             <TableCell>{member.menu}</TableCell>
                                         </TableRow>
                                     ))}
