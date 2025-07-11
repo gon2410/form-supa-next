@@ -52,17 +52,15 @@ const RequestInfo = () => {
         }
     }
     return (
-        <div className='h-full flex flex-col p-5'>
-            <Card className="border-black">
-                <CardHeader>
-                    <CardTitle className="flex gap-5"><TriangleAlert />ATENCIÓN</CardTitle>
-                    <CardDescription>Para que la solicitud de información sea procesada, es
-                    obligatorio ingresar una dirección de email registrada, es decir, <strong>la
-                    misma que utilizó</strong> usted personalmente o el responsable del grupo para
-                    confirmar. De lo contrario, la solicitud será ignorada.</CardDescription>
-                </CardHeader>
-            </Card>
-
+        <div className='h-full flex flex-col p-2'>
+            <div className="border rounded p-3 grid gap-3">
+                <TriangleAlert className="text-center"/>
+                <p className="text-gray-600 font-semibold">Para que la solicitud de información sea procesada, es
+                    obligatorio ingresar una dirección de email registrada, es decir, <u>la
+                    misma que utilizó</u> usted personalmente o el responsable del grupo para
+                    confirmar. De lo contrario, la solicitud será ignorada.</p>    
+            </div>
+                
             <form action={submitAction} className="grid gap-2 justify-center mt-10">
                 <div className="grid gap-2">
                     <Label htmlFor="email">Direccion de e-mail</Label>
@@ -72,39 +70,32 @@ const RequestInfo = () => {
                     <Button type="submit" variant={"outline"}>Obtener</Button>
                 </div>
             </form>
+
             <div>
                 {error && (
                     <p className="text-red-600 mt-5 text-center">{error}</p>
                 )}
 
                 {success && (
-                    <Card className="border-black mt-5">
-                    <CardHeader>
-                        <CardTitle>Información</CardTitle>
-                        <CardDescription>Listado de persona o personas registradas</CardDescription>
-                        <CardContent>
-                            <Table>
-                                <TableCaption>Miembro o miembros del grupo</TableCaption>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead></TableHead>
-                                        <TableHead>Invitado</TableHead>
-                                        <TableHead>Menú</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {group.map((member, index) => (
-                                        <TableRow key={member.id}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{member.lastname}, {member.name}</TableCell>
-                                            <TableCell>{member.menu}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </CardHeader>
-                    </Card>
+                    <Table className="mt-5 border">
+                        <TableCaption>Lista de miembros asociados al email proporcionado</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>#</TableHead>
+                                <TableHead>Invitado</TableHead>
+                                <TableHead>Menú</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {group.map((member, index) => (
+                                <TableRow key={member.id}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{member.lastname}, {member.name}</TableCell>
+                                    <TableCell>{member.menu}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 )}
             </div>
         </div>

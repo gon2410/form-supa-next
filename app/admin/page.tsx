@@ -58,12 +58,12 @@ const AdminPage = async () => {
     
     return (
         <div className="flex flex-col justify-center">
-            <div className="grid mb-10 border-b m-3">
+            <div className="grid mb-10 border-b">
                 <h3 className="font-bold text-center">Panel de Administración</h3>
                 <Link href="/logout" className="text-center text-red-500 underline">Cerrar sesión</Link>
             </div>
 
-            <div className="flex gap-2 justify-center p-3 border-b">
+            <div className="grid gap-2 md:flex p-3 border-b">
                 <Table className="border">
                     <TableCaption>Cantidades</TableCaption>
                     <TableHeader>

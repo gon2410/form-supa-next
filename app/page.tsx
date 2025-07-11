@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -76,6 +76,8 @@ const SaveForm = () => {
 
     useEffect(() => {
         async function getGuests() {
+            setEmail("")
+            setLeader("")
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
                 method: "GET",
                 credentials: "include"
@@ -93,15 +95,16 @@ const SaveForm = () => {
         <div className='h-full flex flex-col'>
             <h3 className='text-center font-bold'>Confirmar asistencia</h3>
             <Dialog>
-                <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-15">Como me inscribo?</DialogTrigger>
+                <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-5 p-3 border-b">Como me inscribo?</DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                     <DialogTitle>Como me inscribo?</DialogTitle>
+                    <DialogDescription>¿Vas solo o con acompañantes?</DialogDescription>
                         <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li><strong>Si asiste solo:</strong> complete los campos y elija la opción <u>Voy por mi cuenta / responsable de grupo</u>.</li>
-                        <li><strong>Si asiste con acompañantes:</strong> primero confirme su asistencia eligiendo la opción <u>Voy por mi cuenta
-                        / responsable de grupo</u>. Luego, cada acompañante (o usted mismo en su nombre) debe confirmar su asistencia eligiendo
-                        la opción <u>Soy acompañante</u> y seleccionando su nombre como responsable de grupo.</li>
+                        <li><strong>Si vas solo:</strong> completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.</li>
+                        <li><strong>Si vas con acompañantes:</strong> primero completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.
+                            Después, cada acompañante (o vos en su lugar) debe confirmar su asistencia eligiendo “Soy acompañante” y
+                            seleccionando tu nombre como responsable.</li>
                         </ul>
                     </DialogHeader>
                 </DialogContent>
@@ -143,32 +146,36 @@ const SaveForm = () => {
 
                             <div className='flex gap-3'>
                                 <RadioGroupItem id="option-two" value="companion" onClick={() => setRole("companion")} />
-                                <Label htmlFor='option-two'>Soy acompañante / soy miembro de grupo</Label>
+                                <Label htmlFor='option-two'>Soy acompañante</Label>
                             </div>
                         </RadioGroup>
                     </div>
 
-                    <div className='grid gap-2'>
-                        <Label htmlFor='email'>Correo electrónico</Label>
-                        <Input type='email' id='email' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required disabled={role != "leader"} />
-                    </div>
 
-                    <div className='grid gap-2'>
-                        <Label htmlFor='leader'>Soy acompañante de</Label>
-                        <Select value={leader} onValueChange={(value) => {setLeader(value)}} disabled={role !== "companion"} required>
-                            <SelectTrigger id='leader'>
-                                <SelectValue placeholder="Elegir" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {leadersList.map(leader => (
-                                    <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                    {role == "companion" ?
+                        <div className='grid gap-2'>
+                            <Label htmlFor='leader'>Soy acompañante de</Label>
+                            <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
+                                <SelectTrigger id='leader'>
+                                    <SelectValue placeholder="Elegir" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {leadersList.map(leader => (
+                                        <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    :
+                        <div className='grid gap-2'>
+                            <Label htmlFor='email'>Correo electrónico</Label>
+                            <Input type='email' id='email' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required/>
+                        </div>
+                    }
+      
                 </div>
 
-                <div className='text-center mt-10'>
+                <div className='text-center mt-5'>
                     <Button type='submit' variant={"default"}>Confirmar</Button>
 
                     {error && <p className="text-red-600 mt-5 text-center">{error}</p>}

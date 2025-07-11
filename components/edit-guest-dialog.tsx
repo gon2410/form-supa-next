@@ -68,7 +68,7 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
                 <form action={editGuest} id="editGuestForm" className="grid gap-4">
                     <div className="grid gap-1">
                         <Label htmlFor="name">Nombre</Label>
-                        <Input id="name" value={name} onChange={(e) => {setName(e.target.value); setIsEditing(true)}} required/>
+                        <Input id="name" value={name} onChange={(e) => {setName(e.target.value); setIsEditing(true)}} autoComplete="true" required/>
                     </div>
                     
                     <div className="grid gap-1">
