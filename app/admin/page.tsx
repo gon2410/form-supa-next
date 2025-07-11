@@ -1,94 +1,119 @@
-"use client";
-
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Power } from "lucide-react";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import EditGuestDialog from "@/components/edit-guest-dialog";
+import GroupMembersDialog from "@/components/group-members-dialog";
+import Link from "next/link";
 
 interface Guest {
     id: number;
     name: string;
     lastname: string;
     menu: string;
+    companion_of: string;
 }
 
-const AdminPage = () => {
-    const router = useRouter();
-    const [isAdmin, setIsAdmin] = useState<null | boolean>(null);
-    const [guests, setGuests] = useState<Guest[]>([]);
+interface Menu {
+    menu_name: string;
+    quantity: number;
+}
 
-    useEffect(() => {
-        async function checkIsAdmin() {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/status`, {
-                credentials: "include",
-            })
+const AdminPage = async () => {
+    const cookieHeader = (await headers()).get("cookie") || "";
 
-            if (response.ok) {
-                setIsAdmin(true)
-            } else {
-                setIsAdmin(false)
-            }
+    const authRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/status`, {
+        headers: {
+            cookie: cookieHeader
         }
-        checkIsAdmin();
-    }, []);
+    })
 
-    useEffect(() => {
-        if (isAdmin === false) {
-            router.push("/login");
-        }
-    }, [isAdmin, router]);
-   
-    useEffect(() => {
-        async function getGuests() {
-            if (isAdmin === true) {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getall`, {
-                    credentials: "include"
-                });
-
-                if (response.ok) {
-                    const guests = await response.json() as Guest[];
-                    if (guests) {
-                        setGuests(guests)
-                    }
-                }
-            }
-        }
-
-        getGuests();
-    }, [isAdmin])
-
-    const logout = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-            method: "POST",
-            credentials: "include"
-        })
-        
-        if (response.ok) {
-            setIsAdmin(false)
-            router.push("/admin");
-        } 
+    if (authRes.status === 401) {
+        redirect("/login")
     }
 
+    const all = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getall`, {
+        headers: {
+            cookie: cookieHeader
+        },
+        cache: "no-store"
+    })
+
+    const guests = await all.json() as Guest[];
+
+
+    const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+        headers: {
+            cookie: cookieHeader
+        },
+        cache: "no-store"
+    })
+
+    const leaders = await allLeaders.json() as Guest[];
+
+    const menus = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getnumbers`, {
+        method: "GET"
+    })
+
+    const menusData = await menus.json() as Menu[];
+    
     return (
         <div className="flex flex-col justify-center">
-            <h3 className="font-bold text-center mb-5">Panel de Administración</h3>
-                {isAdmin ?
-                    <div className="flex justify-center">
-                        <form action={logout}>
-                            <Button type="submit" variant={"outline"} className="flex border-red-500 w-[15rem]">Cerrar sesión<Power /></Button>
-                        </form>
-                    </div>
-                :
-                    <p></p>
-                }
-            <div className="max-w-md">
-                <Table>
+            <div className="grid mb-10 border-b m-3">
+                <h3 className="font-bold text-center">Panel de Administración</h3>
+                <Link href="/logout" className="text-center text-red-500 underline">Cerrar sesión</Link>
+            </div>
+
+            <div className="flex gap-2 justify-center p-3 border-b">
+                <Table className="border">
+                    <TableCaption>Cantidades</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                        <TableHead>#</TableHead>
+                        <TableHead>Cantidad</TableHead>
+                        <TableHead></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {menusData.map((menu) => (
+                            <TableRow key={menu.menu_name}>
+                                <TableCell className="font-bold">{menu.menu_name}</TableCell>
+                                <TableCell>{menu.quantity}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+                <Table className="border">
+                    <TableCaption>Todos los grupos</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                        <TableHead>#</TableHead>
+                        <TableHead>Responsable</TableHead>
+                        <TableHead></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {leaders.map((guest, index) => (
+                            <TableRow key={guest.id}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{guest.lastname}, {guest.name}</TableCell>
+                                <TableCell>
+                                    <GroupMembersDialog id={guest.id} guests={guests} />
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+
+            <div className="flex justify-center p-3">
+                <Table className="border">
+                    <TableCaption>Todos los invitados</TableCaption>
                     <TableHeader>
                         <TableRow>
                         <TableHead>#</TableHead>
                         <TableHead>Invitado</TableHead>
                         <TableHead>Menú</TableHead>
+                        <TableHead></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -97,6 +122,9 @@ const AdminPage = () => {
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{guest.lastname}, {guest.name}</TableCell>
                                 <TableCell>{guest.menu}</TableCell>
+                                <TableCell>
+                                    <EditGuestDialog guestId={guest.id.toString()} guestName={guest.name} guestLastname={guest.lastname} guestMenu={guest.menu}/>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
