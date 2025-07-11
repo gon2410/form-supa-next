@@ -15,7 +15,7 @@ interface Guest {
 }
 
 const GroupMembersDialog = async ({id, guests}:Props) => {
-    let members = []
+    const members = []
     for (let i=0; i < guests.length; i++) {
         const element = guests[i];
         if (element.companion_of == id.toString() || element.id == id) {
