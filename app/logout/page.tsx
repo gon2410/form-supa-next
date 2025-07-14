@@ -1,19 +1,25 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
 
-const LogoutPage = async () => {
-    const cookieHeader = (await headers()).get("cookie") || "";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-        method: "POST",
-        headers: {
-            cookie: cookieHeader
+const LogoutPage = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        const logout = async() => {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+                method: "POST",
+                credentials: "include"
+            })
+
+            if (response.ok) {
+                router.push("/admin")
+            }
         }
-    })
 
-    if (response.ok) {
-        redirect("/login")
-    }
+        logout();
+    }, [])
     
     return (
         <div>Adiós</div>
