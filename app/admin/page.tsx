@@ -1,64 +1,69 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import EditGuestDialog from "@/components/edit-guest-dialog";
-import GroupMembersDialog from "@/components/group-members-dialog";
-import Link from "next/link";
+"use client";
 
-interface Guest {
-    id: number;
-    name: string;
-    lastname: string;
-    menu: string;
-    companion_of: string;
-}
+// import { headers } from "next/headers";
+// import { cookies } from "next/headers";
+// import { redirect } from "next/navigation";
+// import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+// import EditGuestDialog from "@/components/edit-guest-dialog";
+// import GroupMembersDialog from "@/components/group-members-dialog";
+// import Link from "next/link";
 
-interface Menu {
-    menu_name: string;
-    quantity: number;
-}
+// interface Guest {
+//     id: number;
+//     name: string;
+//     lastname: string;
+//     menu: string;
+//     companion_of: string;
+// }
 
-const AdminPage = async () => {
-    const cookieHeader = (await headers()).get("cookie") || "";
+// interface Menu {
+//     menu_name: string;
+//     quantity: number;
+// }
 
-    const authRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/status`, {
-        headers: {
-            cookie: cookieHeader
-        }
-    })
+const AdminPage = () => {
+    // const cookieHeader = await cookies();
+    // const allCookies = cookieHeader.getAll();
+    // console.log(allCookies)
+    // const authRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/status`, {
+    //     headers: {
+    //         cookie: allCookies
+    //     }
+    // })
 
-    if (authRes.status === 401) {
-        redirect("/login")
-    }
+    // if (authRes.status === 401) {
+    //     redirect("/login")
+    // }
 
-    const all = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getall`, {
-        headers: {
-            cookie: cookieHeader
-        },
-        cache: "no-store"
-    })
+    // const all = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getall`, {
+    //     headers: {
+    //         cookie: cookieHeader
+    //     },
+    //     cache: "no-store"
+    // })
 
-    const guests = await all.json() as Guest[];
+    // const guests = await all.json() as Guest[];
 
 
-    const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
-        headers: {
-            cookie: cookieHeader
-        },
-        cache: "no-store"
-    })
+    // const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+    //     headers: {
+    //         cookie: cookieHeader
+    //     },
+    //     cache: "no-store"
+    // })
 
-    const leaders = await allLeaders.json() as Guest[];
+    // const leaders = await allLeaders.json() as Guest[];
 
-    const menus = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getnumbers`, {
-        method: "GET"
-    })
+    // const menus = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getnumbers`, {
+    //     method: "GET"
+    // })
 
-    const menusData = await menus.json() as Menu[];
+    // const menusData = await menus.json() as Menu[];
     
     return (
         <div className="flex flex-col justify-center">
-            <div className="grid mb-10 border-b">
+            <p>Admin page</p>
+            {/* <div className="grid mb-10 border-b">
                 <h3 className="font-bold text-center">Panel de Administración</h3>
                 <Link href="/logout" className="text-center text-red-500 underline">Cerrar sesión</Link>
             </div>
@@ -129,7 +134,7 @@ const AdminPage = async () => {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
+            </div> */}
         </div>
     )
 }
