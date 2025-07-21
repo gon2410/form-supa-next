@@ -29,6 +29,7 @@ const SaveForm = () => {
 
     const [leadersList, setLeadersList] = useState<Leader[]>([]);
 
+    const [connected, setConnected] = useState<boolean>(false)
     const submitAction = async () => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add`, {
@@ -85,6 +86,7 @@ const SaveForm = () => {
 
             if (response.ok) {
                 const guests = await response.json() as Leader[];
+                setConnected(true)
                 setLeadersList(guests);
             }
         }
@@ -93,6 +95,7 @@ const SaveForm = () => {
 
     return (
         <div className='h-full flex flex-col'>
+            {connected ? <p className="text-green-600 font-semibold text-xs text-center">Conectado al backend</p> : <p className="text-red-600 font-semibold text-sm text-center">Conectandose al backend..(puede demorar)</p>}
             <h3 className='text-center font-bold'>Confirmar asistencia</h3>
             <Dialog>
                 <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-5 p-3 border-b">Como me inscribo?</DialogTrigger>
