@@ -14,7 +14,7 @@ export default function LoginPage() {
 
     const submitAction = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+            const response = await fetch("/api/login", {
                 method: "POST",
                 credentials: "include",
                 headers: {
