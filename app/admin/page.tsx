@@ -1,4 +1,3 @@
-
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -54,7 +53,6 @@ const AdminPage = async () => {
     
     return (
         <div className="flex flex-col justify-center">
-            <p>Admin page</p>
             <div className="grid mb-10 border-b">
                 <h3 className="font-bold text-center">Panel de Administración</h3>
                 <Link href="/logout" className="text-center text-red-500 underline">Cerrar sesión</Link>

@@ -1,15 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const LogoutPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const logout = async() => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-                method: "POST",
+        const logout = async () => {
+            const response = await fetch("/api/logout", {
+                method: 'POST',
                 credentials: "include"
             })
 
@@ -17,12 +17,11 @@ const LogoutPage = () => {
                 router.push("/admin")
             }
         }
-
         logout();
     }, [])
-    
+
     return (
-        <div>Adiós</div>
+        <div className="text-center">Adiós</div>
     )
 }
 
