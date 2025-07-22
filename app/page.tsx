@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Badge } from "@/components/ui/badge";
 
 interface Leader {
     id: number;
@@ -95,7 +96,7 @@ const SaveForm = () => {
 
     return (
         <div className='h-full flex flex-col'>
-            {connected ? <p className="text-green-600 font-semibold text-xs text-center">Conectado al backend</p> : <p className="text-red-600 font-semibold text-sm text-center">Conectandose al backend..(puede demorar)</p>}
+            {connected ? <Badge variant="default" className="bg-green-600 ml-5">Conectado</Badge> : <Badge variant="destructive" className="ml-5">Conectando...</Badge>}
             <h3 className='text-center font-bold'>Confirmar asistencia</h3>
             <Dialog>
                 <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-5 p-3 border-b">Como me inscribo?</DialogTrigger>
