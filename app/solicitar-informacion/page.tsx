@@ -6,6 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface Guest {
     id: number;
@@ -14,7 +23,7 @@ interface Guest {
     menu: string
 }
 
-const RequestInfo = () => {
+const RequestInfoPage = () => {
     const [email, setEmail] = useState<string>("");
     const [group, setGroup] = useState<Guest[]>([]);
 
@@ -52,13 +61,15 @@ const RequestInfo = () => {
     }
     return (
         <div className='h-full flex flex-col p-2'>
-            <div className="border rounded p-3 grid gap-3">
-                <TriangleAlert className="text-center"/>
-                <p className="text-gray-600 font-semibold">Para que la solicitud de información sea procesada, es
-                    obligatorio ingresar una dirección de email registrada, es decir, <u>la
-                    misma que utilizó</u> usted personalmente o el responsable del grupo para
-                    confirmar. De lo contrario, la solicitud será ignorada.</p>    
-            </div>
+            <Card className="border-2 border-yellow-400">
+                <CardHeader>
+                    <CardTitle>Atención</CardTitle>
+                    <CardDescription>Para que la solicitud de información sea procesada, es
+                    obligatorio ingresar una dirección de email registrada, es decir, <b>la
+                    misma que utilizó</b> usted personalmente o el responsable del grupo para
+                    confirmar. De lo contrario, la solicitud será ignorada.</CardDescription>
+                </CardHeader>
+            </Card>
                 
             <form action={submitAction} className="grid gap-2 justify-center mt-10">
                 <div className="grid gap-2">
@@ -101,4 +112,4 @@ const RequestInfo = () => {
     )
 }
 
-export default RequestInfo;
+export default RequestInfoPage;

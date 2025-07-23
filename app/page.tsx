@@ -8,7 +8,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Badge } from "@/components/ui/badge";
 
 interface Leader {
     id: number;
@@ -30,7 +29,6 @@ const SaveForm = () => {
 
     const [leadersList, setLeadersList] = useState<Leader[]>([]);
 
-    const [connected, setConnected] = useState<boolean>(false)
     const submitAction = async () => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add`, {
@@ -87,7 +85,6 @@ const SaveForm = () => {
 
             if (response.ok) {
                 const guests = await response.json() as Leader[];
-                setConnected(true)
                 setLeadersList(guests);
             }
         }
@@ -95,24 +92,24 @@ const SaveForm = () => {
     }, [role])
 
     return (
-        <div className='h-full flex flex-col'>
-            {connected ? <Badge variant="default" className="bg-green-600 ml-5">Conectado</Badge> : <Badge variant="destructive" className="ml-5">Conectando...</Badge>}
-            <h3 className='text-center font-bold'>Confirmar asistencia</h3>
-            <Dialog>
-                <DialogTrigger className="font-bold text-xs text-gray-500 underline mb-5 p-3 border-b">Como me inscribo?</DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                    <DialogTitle>Como me inscribo?</DialogTitle>
-                    <DialogDescription>¿Vas solo o con acompañantes?</DialogDescription>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li><strong>Si vas solo:</strong> completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.</li>
-                        <li><strong>Si vas con acompañantes:</strong> primero completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.
-                            Después, cada acompañante (o vos en su lugar) debe confirmar su asistencia eligiendo “Soy acompañante” y
-                            seleccionando tu nombre como responsable.</li>
-                        </ul>
-                    </DialogHeader>
-                </DialogContent>
-            </Dialog>
+        <div className='flex flex-col'>
+            <div className="flex justify-around">
+                <Dialog>
+                    <DialogTrigger className="font-bold text-xs text-gray-500">Como me inscribo?</DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>¿Vas solo o con acompañantes?</DialogTitle>
+                            <DialogDescription></DialogDescription>
+                        </DialogHeader>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li><strong>Si vas solo:</strong> completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.</li>
+                            <li><strong>Si vas con acompañantes:</strong> primero completá tus datos y elegí “Voy por mi cuenta / Responsable del grupo”.
+                                Después, cada acompañante (o vos en su lugar) debe confirmar su asistencia eligiendo “Soy acompañante” y
+                                seleccionando tu nombre como responsable.</li>
+                            </ul>
+                    </DialogContent>
+                </Dialog>
+            </div>
 
             <form action={submitAction}>
                 <div className='grid gap-5 p-5'>
