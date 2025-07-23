@@ -12,9 +12,9 @@ const IsConnected = () => {
         const getConnection = async() => {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`);
             
-            if (response.ok) [
+            if (response.ok) {
                 setIsConnected(true)
-            ]
+            }
         }
         getConnection();
     }, [])

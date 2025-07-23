@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditGuestDialog from "@/components/edit-guest-dialog";
 import GroupMembersDialog from "@/components/group-members-dialog";
-import Link from "next/link";
 import Logout from "@/components/logout";
 
 interface Guest {
