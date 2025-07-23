@@ -30,7 +30,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
 		data = await response.json();
 	} catch (error) {
 		data = null;
-		console.log("Todavia no hay conexión")
+		console.log("Todavia no hay conexión: ", error)
 	}
 
 	return (
