@@ -4,6 +4,7 @@ import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, Tabl
 import EditGuestDialog from "@/components/edit-guest-dialog";
 import GroupMembersDialog from "@/components/group-members-dialog";
 import Link from "next/link";
+import Logout from "@/components/logout";
 
 interface Guest {
     id: number;
@@ -53,9 +54,8 @@ const AdminPage = async () => {
     
     return (
         <div className="flex flex-col justify-center">
-            <div className="grid mb-10 border-b">
-                <h3 className="font-bold text-center">Panel de Administración</h3>
-                <Link href="/logout" className="text-center text-red-500 underline">Cerrar sesión</Link>
+            <div className="flex justify-between">
+                <Logout />
             </div>
 
             <div className="grid gap-2 md:flex p-3 border-b">

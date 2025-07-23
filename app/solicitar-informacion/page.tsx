@@ -57,7 +57,7 @@ const RequestInfoPage = () => {
     }
     return (
         <div className='h-full flex flex-col p-2'>
-            <Card className="border-2 border-yellow-400">
+            <Card>
                 <CardHeader>
                     <CardTitle>Atención</CardTitle>
                     <CardDescription>Para que la solicitud de información sea procesada, es
