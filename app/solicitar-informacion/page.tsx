@@ -56,7 +56,7 @@ const RequestInfoPage = () => {
         }
     }
     return (
-        <div className='h-full flex flex-col p-2'>
+        <div className='flex flex-col p-2'>
             <Card>
                 <CardHeader>
                     <CardTitle>Atención</CardTitle>
@@ -67,7 +67,7 @@ const RequestInfoPage = () => {
                 </CardHeader>
             </Card>
                 
-            <form action={submitAction} className="grid gap-2 justify-center mt-10">
+            <form action={submitAction} className="grid gap-2 mt-10">
                 <div className="grid gap-2">
                     <Label htmlFor="email">Direccion de e-mail</Label>
                     <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>

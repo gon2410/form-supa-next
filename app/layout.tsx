@@ -42,7 +42,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</nav>
-				<main>
+				<main className="mx-auto max-w-[50rem]">
 					{children}
 				</main>
 			</body>

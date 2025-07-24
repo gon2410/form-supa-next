@@ -48,7 +48,7 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
             router.refresh();
         } else {
             setSuccess("");
-            setError("Algo salió mal.");
+            setError(data.detail);
         }
     }
 
