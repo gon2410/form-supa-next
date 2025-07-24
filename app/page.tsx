@@ -31,7 +31,7 @@ const SaveForm = () => {
 
     const submitAction = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-guest`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

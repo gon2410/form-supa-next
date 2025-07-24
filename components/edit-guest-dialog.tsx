@@ -25,7 +25,7 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
     const [error, setError] = useState<string>("");
     const router = useRouter();
     const editGuest = async() => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/editguest`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/update-guest`, {
             method: "POST",
             credentials: "include",
             headers: {
