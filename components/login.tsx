@@ -39,22 +39,20 @@ const Login = () => {
         }
     }
     return (
-        <div className="flex items-center justify-center">
-            <Card>
-                <CardContent>
-                    <CardHeader className="mb-5">
-                        <CardTitle className="text-center">Ingresar</CardTitle>
-                    </CardHeader>
-                    <form action={submitAction} className="grid gap-4">
-                        <Label htmlFor="email">Email:</Label>
-                        <Input id="email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
-                        <Label htmlFor="password">Contraseña:</Label>
-                        <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
-                        <Button type="submit">Ingresar</Button>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
+        <Card>
+            <CardContent>
+                <CardHeader className="mb-5">
+                    <CardTitle className="text-center">Ingresar</CardTitle>
+                </CardHeader>
+                <form action={submitAction} className="grid gap-4">
+                    <Label htmlFor="email">Email:</Label>
+                    <Input id="email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
+                    <Label htmlFor="password">Contraseña:</Label>
+                    <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
+                    <Button type="submit">Ingresar</Button>
+                </form>
+            </CardContent>
+        </Card>
     )
 }
 

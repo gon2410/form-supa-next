@@ -4,6 +4,7 @@ import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, Tabl
 import EditGuestDialog from "@/components/edit-guest-dialog";
 import GroupMembersDialog from "@/components/group-members-dialog";
 import Logout from "@/components/logout";
+import DeleteGuestDialog from "@/components/delete-guest-dialog";
 
 interface Guest {
     id: number;
@@ -116,8 +117,9 @@ const AdminPage = async () => {
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{guest.lastname}, {guest.name}</TableCell>
                                 <TableCell>{guest.menu}</TableCell>
-                                <TableCell>
+                                <TableCell className="flex gap-4">
                                     <EditGuestDialog guestId={guest.id.toString()} guestName={guest.name} guestLastname={guest.lastname} guestMenu={guest.menu}/>
+                                    <DeleteGuestDialog id={guest.id} name={guest.name} lastname={guest.lastname}/>
                                 </TableCell>
                             </TableRow>
                         ))}

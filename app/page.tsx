@@ -53,7 +53,6 @@ const SaveForm = () => {
                 setName("");
                 setLastname("");
                 setMenu("");
-                setRole("leader");
                 setEmail("");
                 setLeader("");
 
@@ -63,7 +62,6 @@ const SaveForm = () => {
                 setName("");
                 setLastname("");
                 setMenu("");
-                setRole("leader");
                 setEmail("");
                 setLeader("");
                 setError("")
