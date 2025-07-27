@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Card,
   CardDescription,
@@ -23,9 +24,6 @@ const RequestInfoPage = () => {
     const [email, setEmail] = useState<string>("");
     const [group, setGroup] = useState<Guest[]>([]);
 
-    const [error, setError] = useState<string>("");
-    const [success, setSuccess] = useState<string>("");
-
     const submitAction = async () => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-group`, {
@@ -42,14 +40,14 @@ const RequestInfoPage = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setSuccess("")
                 setEmail("");
-                setError(data.detail || "Algo salió mal. Intente de nuevo")
+                setGroup([])
+                toast(data.detail || "Algo salió mal. Intente de nuevo", {
+                    duration: 5000
+                })
             } else {
-                setError("");
                 setEmail("");
                 setGroup(data);
-                setSuccess("success");
             }
         } catch (error) {
             console.log(error)
@@ -69,27 +67,23 @@ const RequestInfoPage = () => {
                 
             <form action={submitAction} className="grid gap-2 mt-10">
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Direccion de e-mail</Label>
-                    <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>
+                    <Label htmlFor="email" className="text-white">Dirección de e-mail</Label>
+                    <Input type="email" id="email" className='bg-white' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
                 </div>
-                <div className="grid justify-center">
-                    <Button type="submit" variant={"outline"}>Obtener</Button>
+                <div>
+                    <Button type="submit" variant={"outline"}>Solicitar</Button>
                 </div>
             </form>
 
             <div>
-                {error && (
-                    <p className="text-red-600 mt-5 text-center">{error}</p>
-                )}
-
-                {success && (
-                    <Table className="mt-5 border">
-                        <TableCaption>Lista de miembros asociados al email proporcionado</TableCaption>
+                {group.length > 0 && (
+                    <Table className="mt-5 p-2 rounded text-white">
+                        <TableCaption className="text-white">Lista de miembros asociados al email proporcionado</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>#</TableHead>
-                                <TableHead>Invitado</TableHead>
-                                <TableHead>Menú</TableHead>
+                                <TableHead className="text-white">#</TableHead>
+                                <TableHead className="text-white">Invitado</TableHead>
+                                <TableHead className="text-white">Menú</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

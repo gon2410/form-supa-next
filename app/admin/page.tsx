@@ -53,7 +53,7 @@ const AdminPage = async () => {
     const menusData = await menus.json() as Menu[];
     
     return (
-        <div className="flex flex-col justify-center">
+        <div className="bg-white md:rounded flex flex-col justify-center">
             <div className="flex justify-between">
                 <Logout />
             </div>

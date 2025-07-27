@@ -49,7 +49,9 @@ const Login = () => {
                     <Input id="email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
                     <Label htmlFor="password">Contraseña:</Label>
                     <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
-                    <Button type="submit">Ingresar</Button>
+                    <div>
+                        <Button type="submit">Ingresar</Button>
+                    </div>
                 </form>
             </CardContent>
         </Card>

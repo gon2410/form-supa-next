@@ -6,6 +6,7 @@ import { CircleX, NotepadText, UserPen, UserRoundCheck } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
 import IsConnected from "@/components/is-connected";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,15 +19,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  	title: "form-supa-next",
-  	description: "RSVP web app",
+	title: "RSVP - Confirmá tu asistencia fácilmente",
+	description: "Una app web simple y moderna para gestionar confirmaciones de asistencia (RSVP) de forma eficiente.",
 };
+
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<nav className="flex justify-between shadow p-4 mb-5">
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+				<nav className="flex justify-between shadow p-4 bg-amber-50 border-b-black">
 					<div>
 						<h3 className="font-bold"><Link href={"/"}>RSVP</Link></h3>
 					</div>
@@ -42,9 +44,10 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</nav>
-				<main className="mx-auto max-w-[50rem]">
+				<main>
 					{children}
 				</main>
+				<Toaster />
 			</body>
 		</html>
 	);

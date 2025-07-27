@@ -118,22 +118,5 @@
 	}
   	body {
 		@apply bg-background text-foreground;
-		/* background-image: url("/fondo_base.png");
-		background-repeat: repeat-y;
-		background-position: center bottom;
-		background-size: 24rem auto; */
 	}
-
-	/* @media (max-width: 640px) {
-		body {
-			background-size: 24rem auto;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		body {
-			background-size: 500 auto;
-			background-repeat: repeat-x;
-		}
-	} */
 }

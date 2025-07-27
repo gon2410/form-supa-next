@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { toast } from 'sonner';
 
 interface Leader {
     id: number;
@@ -23,9 +24,6 @@ const SaveForm = () => {
     const [role, setRole] = useState<string>("leader");
     const [email, setEmail] = useState<string>("");
     const [leader, setLeader] = useState<string>("");
-
-    const [error, setError] = useState<string>("");
-    const [success, setSuccess] = useState<string>("");
 
     const [leadersList, setLeadersList] = useState<Leader[]>([]);
 
@@ -50,22 +48,21 @@ const SaveForm = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setName("");
-                setLastname("");
-                setMenu("");
-                setEmail("");
-                setLeader("");
+                // setName("");
+                // setLastname("");
+                // setMenu("");
+                // setEmail("");
+                // setLeader("");
 
-                setSuccess("");
-                setError(data.detail || "Algo salió mal. Intente de nuevo")
+                toast(data.detail || "Algo salió mal. Intente de nuevo")
             } else {
                 setName("");
                 setLastname("");
                 setMenu("");
                 setEmail("");
                 setLeader("");
-                setError("")
-                setSuccess(data);
+
+                toast(data);
             }
         } catch (error) {
             console.log(error)
@@ -112,19 +109,19 @@ const SaveForm = () => {
             <form action={submitAction}>
                 <div className='grid gap-5 p-5'>
                     <div className="grid gap-2">
-                        <Label htmlFor='name'>Nombre</Label>
-                        <Input id='name' placeholder='Juan' value={name} onChange={(e) => setName(e.target.value)} autoComplete='true' required />
+                        <Label htmlFor='name' className="text-white">Nombre</Label>
+                        <Input id='name' placeholder='Juan' className='bg-white'value={name} onChange={(e) => setName(e.target.value)} autoComplete='true' required />
                     </div>
 
                     <div className='grid gap-2'>
-                        <Label htmlFor='lastname'>Apellido</Label>
-                        <Input id='lastname' placeholder='Perez' value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete='true' required />
+                        <Label htmlFor='lastname' className="text-white">Apellido</Label>
+                        <Input id='lastname' placeholder='Perez' className='bg-white' value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete='true' required />
                     </div>
 
                     <div className='grid gap-2'>
-                        <Label htmlFor='menu'>Menú</Label>
-                        <Select name='menu' value={menu} onValueChange={(value) => setMenu(value)}>
-                            <SelectTrigger id='menu'>
+                        <Label htmlFor='menu' className="text-white">Menú</Label>
+                        <Select name='menu'  value={menu} onValueChange={(value) => setMenu(value)}>
+                            <SelectTrigger id='menu' className='bg-white'>
                                 <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
                             <SelectContent>
@@ -139,13 +136,13 @@ const SaveForm = () => {
                     <div className='grid gap-3'>
                         <RadioGroup defaultValue='leader' name='role' className='flex flex-col justify-center items-center'>
                             <div className='flex gap-3'>
-                                <RadioGroupItem id="option-one" value="leader" onClick={() => setRole("leader")} />
-                                <Label htmlFor='option-one'>Voy por mi cuenta / responsable de grupo</Label>
+                                <RadioGroupItem id="option-one" className="bg-white" value="leader" onClick={() => setRole("leader")} />
+                                <Label htmlFor='option-one' className="text-white">Voy por mi cuenta / responsable de grupo</Label>
                             </div>
 
                             <div className='flex gap-3'>
-                                <RadioGroupItem id="option-two" value="companion" onClick={() => setRole("companion")} />
-                                <Label htmlFor='option-two'>Soy acompañante</Label>
+                                <RadioGroupItem id="option-two" className="bg-white" value="companion" onClick={() => setRole("companion")} />
+                                <Label htmlFor='option-two' className="text-white">Soy acompañante</Label>
                             </div>
                         </RadioGroup>
                     </div>
@@ -153,9 +150,9 @@ const SaveForm = () => {
 
                     {role == "companion" ?
                         <div className='grid gap-2'>
-                            <Label htmlFor='leader'>Soy acompañante de</Label>
+                            <Label htmlFor='leader' className="text-white">Soy acompañante de</Label>
                             <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
-                                <SelectTrigger id='leader'>
+                                <SelectTrigger id='leader' className='bg-white'>
                                     <SelectValue placeholder="Elegir" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -167,18 +164,15 @@ const SaveForm = () => {
                         </div>
                     :
                         <div className='grid gap-2'>
-                            <Label htmlFor='email'>Correo electrónico</Label>
-                            <Input type='email' id='email' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required/>
+                            <Label htmlFor='email' className="text-white">Correo electrónico</Label>
+                            <Input type='email' id='email' className='bg-white' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required/>
                         </div>
                     }
       
                 </div>
 
                 <div className='text-center mt-5'>
-                    <Button type='submit' variant={"default"}>Confirmar</Button>
-
-                    {error && <p className="text-red-600 mt-5 text-center">{error}</p>}
-                    {success && <p className="text-green-600 mt-5 text-center">{success}</p>}
+                    <Button type='submit' variant={"outline"}>Confirmar</Button>
                 </div>
             </form>
         </div>
