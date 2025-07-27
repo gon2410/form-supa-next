@@ -28,13 +28,13 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-				<nav className="flex justify-between shadow p-4 bg-amber-50 border-b-black">
+				<nav className="flex justify-between shadow p-4 bg-stone-900 border-b-black">
 					<div>
-						<h3 className="font-bold"><Link href={"/"}>RSVP</Link></h3>
+						<h3 className="font-bold text-white"><Link href={"/"}>RSVP</Link></h3>
 					</div>
 					<IsConnected />
 					<DropdownMenu>
-						<DropdownMenuTrigger><Menu /></DropdownMenuTrigger>
+						<DropdownMenuTrigger><Menu className="text-white" /></DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuItem><UserRoundCheck /><Link href={"/"}>Confirmar asistencia</Link></DropdownMenuItem>
 							<DropdownMenuItem><NotepadText /><Link href={"/solicitar-informacion"}>Solicitar información</Link></DropdownMenuItem>

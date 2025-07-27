@@ -25,7 +25,7 @@ const IsConnected = () => {
             :
             <Badge variant="destructive" className="ml-5">Conectando...</Badge>}
             <Tooltip>
-                <TooltipTrigger><Info size={15}/></TooltipTrigger>
+                <TooltipTrigger><Info size={15} className="text-white"/></TooltipTrigger>
                 <TooltipContent>
                     <p>Es necesario esperar la conexión con el servidor. Puede demorar unos minutos.</p>
                 </TooltipContent>
