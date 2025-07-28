@@ -48,12 +48,6 @@ const SaveForm = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                // setName("");
-                // setLastname("");
-                // setMenu("");
-                // setEmail("");
-                // setLeader("");
-
                 toast(data.detail || "Algo salió mal. Intente de nuevo")
             } else {
                 setName("");
@@ -87,10 +81,10 @@ const SaveForm = () => {
     }, [role])
 
     return (
-        <div className='flex flex-col'>
-            <div className="flex justify-around">
+        <div className="rounded-2xl p-2 bg-zinc-950">
+            <div className="text-center">
                 <Dialog>
-                    <DialogTrigger className="font-bold text-xs text-gray-500">Como me inscribo?</DialogTrigger>
+                    <DialogTrigger className="text-xs text-gray-500">Como me inscribo?</DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>¿Vas solo o con acompañantes?</DialogTitle>
@@ -106,73 +100,68 @@ const SaveForm = () => {
                 </Dialog>
             </div>
 
-            <form action={submitAction}>
-                <div className='grid gap-5 p-5'>
+            <form action={submitAction} className="grid gap-8 p-5">
+                <div className="grid gap-2">
+                    <Label htmlFor="name" className="text-white">Nombre</Label>
+                    <Input id="name" placeholder="Juan" className="bg-white" value={name} onChange={(e) => setName(e.target.value)} autoComplete="true" required />
+                </div>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="lastname" className="text-white">Apellido</Label>
+                    <Input id="lastname" placeholder="Perez" className="bg-white" value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete="true" required />
+                </div>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="menu" className="text-white">Menú</Label>
+                    <Select name="menu"  value={menu} onValueChange={(value) => setMenu(value)}>
+                        <SelectTrigger id="menu" className="bg-white">
+                            <SelectValue placeholder="Elegir" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="sin_condicion">Sin Condición</SelectItem>
+                            <SelectItem value="vegetariano">Vegetariano</SelectItem>
+                            <SelectItem value="vegano">Vegano</SelectItem>
+                            <SelectItem value="celiaco">Celiaco</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <RadioGroup defaultValue="leader" name="role" className="grid gap-3">
+                    <div className="flex gap-3">
+                        <RadioGroupItem id="option-one" className="bg-white" value="leader" onClick={() => setRole("leader")} />
+                        <Label htmlFor="option-one" className="text-white">Voy por mi cuenta / responsable de grupo</Label>
+                    </div>
+
+                    <div className="flex gap-3">
+                        <RadioGroupItem id="option-two" className="bg-white" value="companion" onClick={() => setRole("companion")} />
+                        <Label htmlFor='option-two' className="text-white">Soy acompañante</Label>
+                    </div>
+                </RadioGroup>
+
+
+                {role == "companion" ?
                     <div className="grid gap-2">
-                        <Label htmlFor='name' className="text-white">Nombre</Label>
-                        <Input id='name' placeholder='Juan' className='bg-white'value={name} onChange={(e) => setName(e.target.value)} autoComplete='true' required />
-                    </div>
-
-                    <div className='grid gap-2'>
-                        <Label htmlFor='lastname' className="text-white">Apellido</Label>
-                        <Input id='lastname' placeholder='Perez' className='bg-white' value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete='true' required />
-                    </div>
-
-                    <div className='grid gap-2'>
-                        <Label htmlFor='menu' className="text-white">Menú</Label>
-                        <Select name='menu'  value={menu} onValueChange={(value) => setMenu(value)}>
-                            <SelectTrigger id='menu' className='bg-white'>
+                        <Label htmlFor="leader" className="text-white">Soy acompañante de</Label>
+                        <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
+                            <SelectTrigger id="leader" className="bg-white">
                                 <SelectValue placeholder="Elegir" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="sin_condicion">Sin Condición</SelectItem>
-                                <SelectItem value="vegetariano">Vegetariano</SelectItem>
-                                <SelectItem value="vegano">Vegano</SelectItem>
-                                <SelectItem value="celiaco">Celiaco</SelectItem>
+                                {leadersList.map(leader => (
+                                    <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                     </div>
-
-                    <div className='grid gap-3'>
-                        <RadioGroup defaultValue='leader' name='role' className='flex flex-col justify-center items-center'>
-                            <div className='flex gap-3'>
-                                <RadioGroupItem id="option-one" className="bg-white" value="leader" onClick={() => setRole("leader")} />
-                                <Label htmlFor='option-one' className="text-white">Voy por mi cuenta / responsable de grupo</Label>
-                            </div>
-
-                            <div className='flex gap-3'>
-                                <RadioGroupItem id="option-two" className="bg-white" value="companion" onClick={() => setRole("companion")} />
-                                <Label htmlFor='option-two' className="text-white">Soy acompañante</Label>
-                            </div>
-                        </RadioGroup>
+                :
+                    <div className="grid gap-2">
+                        <Label htmlFor="email" className="text-white">Correo electrónico</Label>
+                        <Input type="email" id="email" className="bg-white" placeholder="juanperez@hotmail.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>
                     </div>
-
-
-                    {role == "companion" ?
-                        <div className='grid gap-2'>
-                            <Label htmlFor='leader' className="text-white">Soy acompañante de</Label>
-                            <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
-                                <SelectTrigger id='leader' className='bg-white'>
-                                    <SelectValue placeholder="Elegir" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {leadersList.map(leader => (
-                                        <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    :
-                        <div className='grid gap-2'>
-                            <Label htmlFor='email' className="text-white">Correo electrónico</Label>
-                            <Input type='email' id='email' className='bg-white' placeholder='juanperez@hotmail.com' value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='true' required/>
-                        </div>
-                    }
+                }
       
-                </div>
-
-                <div className='text-center mt-5'>
-                    <Button type='submit' variant={"outline"}>Confirmar</Button>
+                <div className="text-center mt-5">
+                    <Button type="submit" variant={"outline"}>Confirmar</Button>
                 </div>
             </form>
         </div>

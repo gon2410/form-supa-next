@@ -28,7 +28,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-				<nav className="flex justify-between shadow p-4 bg-stone-900 border-b-black">
+				<nav className="flex justify-between shadow p-4 bg-zinc-950 border-b-black">
 					<div>
 						<h3 className="font-bold text-white"><Link href={"/"}>RSVP</Link></h3>
 					</div>

@@ -35,7 +35,7 @@ const ReportErrorPage = () => {
     }
 
     return (
-        <div className='flex flex-col p-2'>
+        <div className="rounded-2xl p-4 bg-zinc-950">
             <Card>
                 <CardHeader>
                     <CardTitle>Atención</CardTitle>
@@ -45,16 +45,16 @@ const ReportErrorPage = () => {
                     confirmar. De lo contrario, será ignorado.</CardDescription>
                 </CardHeader>
             </Card>
-            <form action={submitAction} className="flex flex-col gap-4 mt-10">
-               <div className="grid gap-1">
+            <form action={submitAction} className="grid gap-8 mt-10">
+               <div className="grid gap-2">
                     <Label htmlFor="email" className="text-white">Dirección de e-mail</Label>
                     <Input id="email" type="email" className='bg-white' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
                 </div>
-                <div className="grid gap-1">
+                <div className="grid gap-2">
                     <Label htmlFor="description" className="text-white">Descripción del error</Label>
                     <Textarea id="description" className='bg-white' placeholder="Escriba el error detalladamente aqui" rows={40} value={description} onChange={(e) => setDescription(e.target.value)} required/>
                 </div>
-                <div>
+                <div className="text-center mt-5">
                     <Button type="submit" variant={"outline"}>Enviar</Button>
                 </div>
             </form>
