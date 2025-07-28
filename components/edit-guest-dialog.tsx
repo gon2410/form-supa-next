@@ -6,6 +6,7 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Props {
     guestId: string;
@@ -21,8 +22,7 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
     const [menu, setMenu] = useState<string>("");
 
     const [isEditing, setIsEditing] = useState<null | boolean>(false);
-    const [success, setSuccess] = useState<string>("")
-    const [error, setError] = useState<string>("");
+
     const router = useRouter();
     const editGuest = async() => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/update-guest`, {
@@ -42,18 +42,16 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
         const data = await response.json();
 
         if (response.ok) {
-            setError("")
-            setSuccess(data)
+            toast(data)
             setIsEditing(false)
             router.refresh();
         } else {
-            setSuccess("");
-            setError(data.detail);
+            toast(data.detail);
         }
     }
 
     return (
-        <Dialog onOpenChange={() => setSuccess("")}>
+        <Dialog>
             <DialogTrigger onClick={() => {
                 setId(guestId.toString());
                 setName(guestName);
@@ -94,8 +92,6 @@ const EditGuestDialog = ({guestId, guestName, guestLastname, guestMenu}: Props) 
                 </form>
                 <DialogFooter className="grid gap-5">
                     <Button type="submit" form="editGuestForm" variant={"outline"} disabled={!isEditing}>Guardar</Button>
-                    {success ? <p role="status" className="font-bold text-green-500 text-center">{success}</p> : <></>}
-                    {error ? <p role="status" className="font-bold text-red-500 text-center">{error}</p> : <></>}
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -3,9 +3,9 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("admin@gmail.com");
@@ -29,32 +29,32 @@ const Login = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                console.log("Error", data)
+                toast(data.detail || "Algo salió mal.")
             } else {
-                console.log(data)
                 router.push("/admin");
             }
         } catch (error) {
-            console.log(error)
+            toast("Algo salió mal.")
         }
     }
     return (
-        <Card>
-            <CardContent>
-                <CardHeader className="mb-5">
-                    <CardTitle className="text-center">Ingresar</CardTitle>
-                </CardHeader>
-                <form action={submitAction} className="grid gap-4">
-                    <Label htmlFor="email">Email:</Label>
-                    <Input id="email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
-                    <Label htmlFor="password">Contraseña:</Label>
-                    <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
-                    <div>
-                        <Button type="submit">Ingresar</Button>
-                    </div>
-                </form>
-            </CardContent>
-        </Card>
+        <div className="rounded-2xl p-5 bg-zinc-950">
+            <form action={submitAction} className="grid gap-8">
+                <p className="text-center text-white text-1xl">Area de administración</p>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="email" className="text-white">Email:</Label>
+                    <Input id="email" type="email" className="bg-white" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="password" className="text-white">Contraseña:</Label>
+                    <Input id="password" type="password" className="bg-white" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
+                </div>
+                <div className="text-center mt-5">
+                    <Button type="submit" variant={"outline"}>Ingresar</Button>
+                </div>
+            </form>
+        </div>
     )
 }
 

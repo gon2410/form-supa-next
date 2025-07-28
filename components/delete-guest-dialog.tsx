@@ -3,6 +3,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Props {
     id: number;
@@ -28,9 +29,10 @@ const DeleteGuestDialog = ({id, name, lastname}: Props) => {
         const data = await response.json();
 
         if (response.ok) {
+            toast(data)
             router.refresh();
         } else {
-            console.log(data.detail)
+            toast(data.detail)
         }
     }
     return (
