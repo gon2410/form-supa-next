@@ -34,6 +34,7 @@ const Login = () => {
                 router.push("/admin");
             }
         } catch (error) {
+            console.log(error)
             toast("Algo salió mal.")
         }
     }
