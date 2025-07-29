@@ -15,7 +15,7 @@ const DeleteGuestDialog = ({id, name, lastname}: Props) => {
     const router = useRouter();
 
     const submitAction = async() => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete-guest`, {
+        const response = await fetch("/api/delete", {
             method: "POST",
             credentials: "include",
             headers: {
