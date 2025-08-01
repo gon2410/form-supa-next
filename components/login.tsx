@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("admin@gmail.com");
-    const [passwd, setPasswd] = useState<string>("");
+    const [passwd, setPasswd] = useState<string>("xyzab3landa");
     const router = useRouter();
     
     const submitAction = async () => {
