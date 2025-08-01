@@ -58,6 +58,7 @@ const AddGuest = ({leaders}: Props) => {
 
             router.refresh();
         } catch (error) {
+            console.log(error)
             toast("Algo salió mal.")
         }
     }

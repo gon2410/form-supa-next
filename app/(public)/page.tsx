@@ -17,7 +17,7 @@ const Home = async () => {
         }
 
     } catch (error) {
-        console.log("No pudimos obtener líderes.")
+        console.log(error)
     }
 
     return (

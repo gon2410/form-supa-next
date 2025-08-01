@@ -20,11 +20,11 @@ const GroupMembersDialog = ({ id }:Props) => {
 
     useEffect(() => {
         if (open) {
-            tuFuncion()
+            getCompanions()
         }
     }, [open])
 
-    async function tuFuncion() {
+    async function getCompanions() {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-companions-of/${id}`, {
             method: "GET"
         })

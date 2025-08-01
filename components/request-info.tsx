@@ -34,6 +34,7 @@ const RequestInfo = () => {
                 setGroup(data);
             }
         } catch (error) {
+            console.log(error)
             toast("No pudimos verificar el email.")
         }
     }
