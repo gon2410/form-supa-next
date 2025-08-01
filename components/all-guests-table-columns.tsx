@@ -14,10 +14,6 @@ export const guestsColumns: ColumnDef<Guest>[] = [
         header: "Nombre",
     },
     {
-        accessorKey: "menu",
-        header: "Menú",
-    },
-    {
         id: "actions",
         cell: ({ row }) => {
             const guest = row.original
