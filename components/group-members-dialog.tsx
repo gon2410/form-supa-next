@@ -1,53 +1,64 @@
+"use client";
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
+import { useEffect, useState } from "react";
 interface Props {
     id: number;
-    guests: Guest[]
 }
 
 interface Guest {
     id: number;
     name: string;
     lastname: string;
-    menu: string;
     companion_of: string;
 }
 
-const GroupMembersDialog = async ({id, guests}:Props) => {
-    const members = []
-    for (let i=0; i < guests.length; i++) {
-        const element = guests[i];
-        if (element.companion_of == id.toString() || element.id == id) {
-            members.push(element)
-        }
-    }
+const GroupMembersDialog = ({ id }:Props) => {
+    const [open, setOpen] = useState(false);
+    const [members, setMembers] = useState<Guest[]>([]);
 
+    useEffect(() => {
+        if (open) {
+            tuFuncion()
+        }
+    }, [open])
+
+    async function tuFuncion() {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-companions-of/${id}`, {
+            method: "GET"
+        })
+
+        const data = await response.json()
+        setMembers(data)
+    }
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>+</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                 <DialogTitle>Grupo de invitado</DialogTitle>
                 <DialogDescription>Lista de miembros del grupo</DialogDescription>
-                    <Table className="border">
-                        <TableHeader>
-                            <TableRow>
-                            <TableHead>#</TableHead>
-                            <TableHead>Miembro</TableHead>
-                            <TableHead>Menú</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {members.map((member, index) => (
-                                <TableRow key={member.id}>
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{member.lastname}, {member.name}</TableCell>
-                                    <TableCell>{member.menu}</TableCell>
+                    {members.length > 0 ?
+                        <Table className="border">
+                            <TableHeader>
+                                <TableRow>
+                                <TableHead>#</TableHead>
+                                <TableHead>Miembro</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {members.map((member, index) => (
+                                    <TableRow key={member.id}>
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{member.lastname}, {member.name}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    :
+                        <p className="text-center text-sm">Este invitado va por su cuenta.</p>
+                    }
                 </DialogHeader>
             </DialogContent>
         </Dialog>

@@ -1,23 +1,13 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import EditGuestDialog from "@/components/edit-guest-dialog";
-import GroupMembersDialog from "@/components/group-members-dialog";
 import Logout from "@/components/logout";
-import DeleteGuestDialog from "@/components/delete-guest-dialog";
-
-interface Guest {
-    id: number;
-    name: string;
-    lastname: string;
-    menu: string;
-    companion_of: string;
-}
-
-interface Menu {
-    menu_name: string;
-    quantity: number;
-}
+import { guestsColumns } from "../../components/all-guests-table-columns";
+import { GuestsDataTable } from "../../components/all-guests-data-table";
+import { leadersColumns } from "@/components/all-leaders-table-columns";
+import { LeadersDataTable } from "@/components/all-leaders-data-table";
+import { errorsColumns, Error } from "@/components/errors-table-columns";
+import { ErrorDataTable } from "@/components/errors-data-table";
 
 const AdminPage = async () => {
     const allCookies = await cookies()
@@ -36,7 +26,6 @@ const AdminPage = async () => {
 
     const guests = await all.json() as Guest[];
 
-
     const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
         headers: {
             cookie: token.value
@@ -46,85 +35,65 @@ const AdminPage = async () => {
 
     const leaders = await allLeaders.json() as Guest[];
 
-    const menus = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-statistics`, {
+    const getStatistics = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-statistics`, {
         method: "GET"
     })
 
-    const menusData = await menus.json() as Menu[];
+    const stats = await getStatistics.json() as Stat[];
     
+
+    const getErrors = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-errors`, {
+        method: "GET"
+    })
+
+    const errors = await getErrors.json() as Error[];
+
     return (
-        <div className="bg-white md:rounded flex flex-col justify-center">
-            <div className="flex justify-between">
+        <div>
+            <div className="flex justify-end">
                 <Logout />
             </div>
-
-            <div className="grid gap-2 md:flex p-3 border-b">
-                <Table className="border">
-                    <TableCaption>Cantidades</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                        <TableHead>#</TableHead>
-                        <TableHead>Cantidad</TableHead>
-                        <TableHead></TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {menusData.map((menu) => (
-                            <TableRow key={menu.menu_name}>
-                                <TableCell className="font-bold">{menu.menu_name}</TableCell>
-                                <TableCell>{menu.quantity}</TableCell>
+            <div className="flex flex-col md:flex-row gap-2 md:justify-evenly">
+                <div className="container bg-white p-2 rounded-md">
+                    <p className="text-2xl font-semibold m-3">Hola, Administrador</p>
+                </div>
+                <div className="container bg-white p-2 rounded-md">
+                    <p className="font-semibold px-3 py-1">Numero de invitados</p>
+                    <Table className="border rounded-md">
+                    <TableCaption></TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>#</TableHead>
+                                <TableHead>Cantidad</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <Table className="border">
-                    <TableCaption>Todos los grupos</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                        <TableHead>#</TableHead>
-                        <TableHead>Responsable</TableHead>
-                        <TableHead></TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {leaders.map((guest, index) => (
-                            <TableRow key={guest.id}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{guest.lastname}, {guest.name}</TableCell>
-                                <TableCell>
-                                    <GroupMembersDialog id={guest.id} guests={guests} />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHeader>
+                        <TableBody>
+                            {stats.map((stat) => (
+                                <TableRow key={stat.name}>
+                                    <TableCell>{stat.name}</TableCell>
+                                    <TableCell>{stat.quantity}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
 
-            <div className="flex justify-center p-3">
-                <Table className="border">
-                    <TableCaption>Todos los invitados</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                        <TableHead>#</TableHead>
-                        <TableHead>Invitado</TableHead>
-                        <TableHead>Menú</TableHead>
-                        <TableHead></TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {guests.map((guest, index) => (
-                            <TableRow key={guest.id}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{guest.lastname}, {guest.name}</TableCell>
-                                <TableCell>{guest.menu}</TableCell>
-                                <TableCell className="flex gap-4">
-                                    <EditGuestDialog guestId={guest.id.toString()} guestName={guest.name} guestLastname={guest.lastname} guestMenu={guest.menu}/>
-                                    <DeleteGuestDialog id={guest.id} name={guest.name} lastname={guest.lastname}/>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+            <br />
+
+            <div className="flex flex-col md:flex-row gap-2 md:justify-evenly">
+                <div className="container">
+                    <LeadersDataTable columns={leadersColumns} data={leaders} />
+                </div>
+                <div className="container">
+                    <GuestsDataTable columns={guestsColumns} data={guests} />
+                </div>
+            </div>
+            <br />
+            <div className="flex flex-col md:flex-row gap-2 md:justify-evenly">
+                <div className="container">
+                    <ErrorDataTable columns={errorsColumns} data={errors}/>
+                </div>
             </div>
         </div>
     )

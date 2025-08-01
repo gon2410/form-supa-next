@@ -5,7 +5,6 @@ import Link from "next/link";
 import { CircleX, NotepadText, UserPen, UserRoundCheck } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
-import IsConnected from "@/components/is-connected";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -24,15 +23,14 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-				<nav className="flex justify-between shadow p-4 bg-zinc-950 border-b-black">
+				<nav className="flex justify-between p-4 bg-slate-900">
 					<div>
 						<h3 className="font-bold text-white"><Link href={"/"}>RSVP</Link></h3>
 					</div>
-					<IsConnected />
 					<DropdownMenu>
 						<DropdownMenuTrigger><Menu className="text-white" /></DropdownMenuTrigger>
 						<DropdownMenuContent>
