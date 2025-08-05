@@ -66,7 +66,7 @@ export function GuestsDataTable<TData, TValue>({columns, data }: DataTableProps<
                 </Table>
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
-                <a href="http://127.0.0.1:8000/download-pdf" rel="noopener noreferrer">
+                <a href="https://rsvp-backend-yhqs.onrender.com/download-pdf" rel="noopener noreferrer">
                     <Button variant="outline" size="sm">Descargar PDF</Button>
                 </a>
                 <div>

@@ -40,15 +40,15 @@ const Login = () => {
     }
     return (
         <form action={submitAction} className="grid gap-8">
-            <p className="text-center text-white text-1xl">Area de administración</p>
+            <p className="text-center text-1xl">Area de administración</p>
 
             <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">Email:</Label>
-                <Input id="email" type="email" className="bg-white" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
+                <Label htmlFor="email">Email:</Label>
+                <Input id="email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} autoComplete="true" required/>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="password" className="text-white">Contraseña:</Label>
-                <Input id="password" type="password" className="bg-white" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
+                <Label htmlFor="password">Contraseña:</Label>
+                <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
             </div>
             <div className="text-center mt-5">
                 <Button type="submit" variant={"outline"}>Ingresar</Button>
