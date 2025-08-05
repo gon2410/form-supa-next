@@ -33,6 +33,7 @@ const Home = async () => {
                             <li><strong>Si vas con acompañantes:</strong> Seguí exactamente los mismos pasos como si asistieras solo.
                                 Luego, cada acompañante (o vos en su lugar) debe completar sus datos, elegir “Soy acompañante” y
                                 seleccionar tu nombre como responsable de la lista.</li>
+                            <li>Por último, puede verificar su inscripción en la seccion "Solicitar informacion"</li>
                             </ul>
                     </DialogContent>
                 </Dialog>
