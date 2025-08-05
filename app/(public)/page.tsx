@@ -7,7 +7,8 @@ const Home = async () => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
+            cache: "no-store"
         })
 
         if (response.ok) {
