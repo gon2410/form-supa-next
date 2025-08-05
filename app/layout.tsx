@@ -27,12 +27,12 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-				<nav className="flex justify-between p-4 bg-slate-900">
+				<nav className="flex justify-between p-4 bg-white">
 					<div>
-						<h3 className="font-bold text-white"><Link href={"/"}>RSVP</Link></h3>
+						<h3 className="font-bold"><Link href={"/"}>RSVP</Link></h3>
 					</div>
 					<DropdownMenu>
-						<DropdownMenuTrigger><Menu className="text-white" /></DropdownMenuTrigger>
+						<DropdownMenuTrigger><Menu /></DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuItem><UserRoundCheck /><Link href={"/"}>Confirmar asistencia</Link></DropdownMenuItem>
 							<DropdownMenuItem><NotepadText /><Link href={"/solicitar-informacion"}>Solicitar información</Link></DropdownMenuItem>

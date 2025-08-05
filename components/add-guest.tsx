@@ -66,32 +66,32 @@ const AddGuest = ({leaders}: Props) => {
     return (
         <form action={submitAction} ref={formRef} className="grid gap-8">
             <div className="grid gap-2">
-                <Label htmlFor="name" className="text-white">Nombre</Label>
-                <Input id="name" placeholder="Juan" className="bg-white" value={name} onChange={(e) => setName(e.target.value)} autoComplete="true" required />
+                <Label htmlFor="name">Nombre</Label>
+                <Input id="name" placeholder="Juan" value={name} onChange={(e) => setName(e.target.value)} autoComplete="true" required />
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor="lastname" className="text-white">Apellido</Label>
-                <Input id="lastname" placeholder="Perez" className="bg-white" value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete="true" required />
+                <Label htmlFor="lastname" >Apellido</Label>
+                <Input id="lastname" placeholder="Perez" value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete="true" required />
             </div>
 
             <RadioGroup defaultValue="leader" name="role" className="grid gap-3">
                 <div className="flex gap-3">
-                    <RadioGroupItem id="option-one" className="bg-white" value="leader" onClick={() => setRole("leader")} />
-                    <Label htmlFor="option-one" className="text-white">Voy por mi cuenta / responsable de grupo</Label>
+                    <RadioGroupItem id="option-one" value="leader" onClick={() => setRole("leader")} />
+                    <Label htmlFor="option-one">Voy por mi cuenta / responsable de grupo</Label>
                 </div>
 
                 <div className="flex gap-3">
-                    <RadioGroupItem id="option-two" className="bg-white" value="companion" onClick={() => setRole("companion")} />
-                    <Label htmlFor='option-two' className="text-white">Soy acompañante</Label>
+                    <RadioGroupItem id="option-two" value="companion" onClick={() => setRole("companion")} />
+                    <Label htmlFor="option-two">Soy acompañante</Label>
                 </div>
             </RadioGroup>
 
             {role == "companion" ?
                 <div className="grid gap-2">
-                    <Label htmlFor="leader" className="text-white">Soy acompañante de</Label>
+                    <Label htmlFor="leader">Soy acompañante de</Label>
                     <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
-                        <SelectTrigger id="leader" className="bg-white">
+                        <SelectTrigger id="leader">
                             <SelectValue placeholder="Elegir" />
                         </SelectTrigger>
                         <SelectContent>
@@ -103,8 +103,8 @@ const AddGuest = ({leaders}: Props) => {
                 </div>
             :
                 <div className="grid gap-2">
-                    <Label htmlFor="email" className="text-white">Correo electrónico</Label>
-                    <Input type="email" id="email" className="bg-white" placeholder="juanperez@hotmail.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>
+                    <Label htmlFor="email" >Correo electrónico</Label>
+                    <Input type="email" id="email" placeholder="juanperez@hotmail.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="true" required/>
                 </div>
             }
     
@@ -114,7 +114,7 @@ const AddGuest = ({leaders}: Props) => {
                     <AlertDialogContent>
                         <AlertDialogHeader>
                         <AlertDialogTitle>Esta seguro que desea confirmar?</AlertDialogTitle>
-                        <AlertDialogDescription>Asegúrese de haber ingresado los datos correctos.</AlertDialogDescription>
+                        <AlertDialogDescription>Los datos ingresados son correctos?</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                         <AlertDialogCancel onClick={() => setOpen(false)}>Cancelar</AlertDialogCancel>
