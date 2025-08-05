@@ -48,15 +48,16 @@ const AddGuest = ({leaders}: Props) => {
 
             if (!response.ok) {
                 toast(data.detail || "Algo salió mal. Intente de nuevo")
+                router.refresh();
+
             } else {
                 setName("");
                 setLastname("");
                 setEmail("");
                 setLeader("");
                 toast(data);
+                router.refresh();
             }
-
-            router.refresh();
         } catch (error) {
             console.log(error)
             toast("Algo salió mal.")

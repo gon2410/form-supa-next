@@ -43,7 +43,7 @@ const RequestInfo = () => {
         <>
             <form action={submitAction} className="grid gap-8">
                 <div className="grid gap-2">
-                    <Label htmlFor="email" className="text-white">Dirección de e-mail</Label>
+                    <Label htmlFor="email">Dirección de e-mail</Label>
                     <Input type="email" id="email" className="bg-white" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
                 </div>
                 <div className="text-center mt-5">
@@ -54,12 +54,12 @@ const RequestInfo = () => {
             <div>
                 {group.length > 0 && (
                     <>
-                        <Table className="mt-5 p-2 border rounded text-white">
-                            <TableCaption className="text-white">Invitados inscriptos bajo el email proporcionado</TableCaption>
+                        <Table className="mt-5 p-2 border rounded">
+                            <TableCaption>Invitados inscriptos bajo el email proporcionado</TableCaption>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="text-white">#</TableHead>
-                                    <TableHead className="text-white">Invitado</TableHead>
+                                    <TableHead>#</TableHead>
+                                    <TableHead>Invitado</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -72,7 +72,7 @@ const RequestInfo = () => {
                             </TableBody>
                         </Table>
 
-                        <p className="text-center text-white mt-10">Si existe un error o necesita hacer un cambio en la inscripción, puede reportarlo <Link href={"/reportar-error"} className="text-blue-500 underline">aquí</Link></p>
+                        <p className="text-center mt-10">Si existe un error o necesita hacer un cambio en la inscripción, puede reportarlo <Link href={"/reportar-error"} className="text-blue-500 underline">aquí</Link></p>
                     </>
                 )}
             </div>

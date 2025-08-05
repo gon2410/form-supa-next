@@ -40,21 +40,21 @@ const ReportError = () => {
     return (
         <form action={submitAction} className="grid gap-8 mt-10">
             <div className="grid gap-2">
-                <Label htmlFor="name" className="text-white">Nombre</Label>
-                <Input id="name" placeholder="Juan" className="bg-white" value={name} onChange={(e) => setName(e.target.value)} autoComplete="true" required />
+                <Label htmlFor="name">Nombre</Label>
+                <Input id="name" placeholder="Juan" value={name} onChange={(e) => setName(e.target.value)} autoComplete="true" required />
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor="lastname" className="text-white">Apellido</Label>
-                <Input id="lastname" placeholder="Perez" className="bg-white" value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete="true" required />
+                <Label htmlFor="lastname">Apellido</Label>
+                <Input id="lastname" placeholder="Perez" value={lastname} onChange={(e) => setLastname(e.target.value)} autoComplete="true" required />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">Dirección de e-mail</Label>
-                <Input id="email" type="email" className='bg-white' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
+                <Label htmlFor="email">Dirección de e-mail</Label>
+                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="description" className="text-white">Descripción del error</Label>
-                <Textarea id="description" className='bg-white' placeholder="Escriba el error detalladamente aqui" rows={40} value={description} onChange={(e) => setDescription(e.target.value)} required/>
+                <Label htmlFor="description">Descripción del error</Label>
+                <Textarea id="description" placeholder="Escriba el error detalladamente aqui" rows={40} value={description} onChange={(e) => setDescription(e.target.value)} required/>
             </div>
             <div className="text-center mt-5">
                 <SubmitButton />
