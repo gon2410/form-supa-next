@@ -17,7 +17,7 @@ const AdminPage = async () => {
         redirect("/login")
     }
 
-    const all = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-all-guests`, {
+    const all = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-guests/all`, {
         headers: {
             cookie: token.value
         },
@@ -26,7 +26,7 @@ const AdminPage = async () => {
 
     const guests = await all.json() as Guest[];
 
-    const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+    const allLeaders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-guests/leader`, {
         headers: {
             cookie: token.value
         },

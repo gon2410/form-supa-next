@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 const Home = async () => {
     let leaders = [] as Guest[]
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-guests/leader`, {
             method: "GET",
             credentials: "include",
             cache: "no-store"
