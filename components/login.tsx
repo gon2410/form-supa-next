@@ -2,10 +2,10 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import SubmitButton from "./submit-button";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("admin@gmail.com");
@@ -51,7 +51,7 @@ const Login = () => {
                 <Input id="password" type="password" value={passwd} onChange={(e) => {setPasswd(e.target.value)}} required />
             </div>
             <div className="text-center mt-5">
-                <Button type="submit" variant={"outline"}>Ingresar</Button>
+                <SubmitButton defaultLabel="Ingresar" onPressLabel="Ingresando..."/>
             </div>
         </form>
     )

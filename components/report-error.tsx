@@ -57,7 +57,7 @@ const ReportError = () => {
                 <Textarea id="description" placeholder="Escriba el error detalladamente aqui" rows={40} value={description} onChange={(e) => setDescription(e.target.value)} required/>
             </div>
             <div className="text-center mt-5">
-                <SubmitButton />
+                <SubmitButton defaultLabel="Reportar" onPressLabel="Reportando..." />
             </div>
         </form>
     )

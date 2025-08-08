@@ -2,10 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Logout from "@/components/logout";
-import { guestsColumns } from "../../components/all-guests-table-columns";
 import { GuestsDataTable } from "../../components/all-guests-data-table";
-import { leadersColumns } from "@/components/all-leaders-table-columns";
-import { LeadersDataTable } from "@/components/all-leaders-data-table";
 import { errorsColumns, Error } from "@/components/errors-table-columns";
 import { ErrorDataTable } from "@/components/errors-data-table";
 
@@ -83,10 +80,7 @@ const AdminPage = async () => {
 
             <div className="flex flex-col md:flex-row gap-2 md:justify-evenly">
                 <div className="container">
-                    <LeadersDataTable columns={leadersColumns} data={leaders} />
-                </div>
-                <div className="container">
-                    <GuestsDataTable columns={guestsColumns} data={guests} />
+                    <GuestsDataTable guests={guests} leaders={leaders} />
                 </div>
             </div>
             <br />

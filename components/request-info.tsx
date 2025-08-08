@@ -47,7 +47,7 @@ const RequestInfo = () => {
                     <Input type="email" id="email" className="bg-white" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juanperez@hotmail.com" autoComplete="true" required/>
                 </div>
                 <div className="text-center mt-5">
-                    <SubmitButton />
+                    <SubmitButton defaultLabel="Solicitar" onPressLabel="Solicitando..." />
                 </div>
             </form>
 

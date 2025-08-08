@@ -2,8 +2,8 @@ interface Guest {
     id: number;
     name: string;
     lastname: string;
-    is_leader: string;
-    companion_of: number
+    is_leader: boolean;
+    companion_of: number;
 }
 
 interface Stat {

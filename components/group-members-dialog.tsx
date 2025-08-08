@@ -2,56 +2,49 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useEffect, useState } from "react";
-interface Props {
-    id: number;
-}
+import { Users } from "lucide-react";
+import { useState } from "react";
 
-interface Guest {
+interface Props {
     id: number;
     name: string;
     lastname: string;
-    companion_of: string;
+    guests: Guest[];
 }
 
-const GroupMembersDialog = ({ id }:Props) => {
-    const [open, setOpen] = useState(false);
+const GroupMembersDialog = ({ id, name, lastname, guests }: Props) => {
     const [members, setMembers] = useState<Guest[]>([]);
 
-    useEffect(() => {
-        if (open) {
-            getCompanions()
-        }
-    }, [open])
+    const getMembers = () => {
+        setMembers([]);
+        setMembers(prev => [
+            ...prev,
+            ...guests.filter(guest => guest.companion_of === id)
+        ]);
+    };
 
-    async function getCompanions() {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-companions-of/${id}`, {
-            method: "GET"
-        })
-
-        const data = await response.json()
-        setMembers(data)
-    }
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>+</DialogTrigger>
+        <Dialog>
+            <DialogTrigger onClick={() => getMembers()}><Users size={15}/></DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                <DialogTitle>Grupo de invitado</DialogTitle>
-                <DialogDescription>Lista de miembros del grupo</DialogDescription>
+                <DialogTitle>Acompañantes de {name} {lastname}</DialogTitle>
+                <DialogDescription>Listado de acompañantes</DialogDescription>
                     {members.length > 0 ?
-                        <Table className="border">
+                        <Table>
                             <TableHeader>
                                 <TableRow>
                                 <TableHead>#</TableHead>
-                                <TableHead>Miembro</TableHead>
+                                <TableHead>Apellido</TableHead>
+                                <TableHead>Nombre</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {members.map((member, index) => (
                                     <TableRow key={member.id}>
                                         <TableCell>{index + 1}</TableCell>
-                                        <TableCell>{member.lastname}, {member.name}</TableCell>
+                                        <TableCell>{member.lastname}</TableCell>
+                                        <TableCell>{member.name}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

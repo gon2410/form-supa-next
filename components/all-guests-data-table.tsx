@@ -1,63 +1,56 @@
-"use client"
-
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import EditGuestDialog from "./edit-guest-dialog";
+import DeleteGuestDialog from "./delete-guest-dialog";
+import GroupMembersDialog from "./group-members-dialog";
 import { Button } from "@/components/ui/button";
+import {Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+interface Props {
+    guests: Guest[];
+    leaders: Guest[];
 }
 
-export function GuestsDataTable<TData, TValue>({columns, data }: DataTableProps<TData, TValue>) {
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-    })
-
+export function GuestsDataTable({guests, leaders}: Props) {
     return (
         <div className="bg-white rounded-md p-2">
             <p className="font-semibold px-3 py-1">Listado de todos los invitados</p>
-            <p className="text-xs px-3 py-1">Todos los invitados (principales y acompañantes). Desde aquí puede editar o eliminar.</p>
-            <div className="overflow-hidden rounded-md border min-h-[26rem]">
+            <p className="text-xs px-3 py-1"></p>
+            <div className="overflow-auto rounded-md border min-h-[26rem] max-h-[26rem]">
                 <Table>
                     <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => {
-                            return (
-                            <TableHead key={header.id}>
-                                {header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                    )}
-                            </TableHead>
-                            )
-                        })}
+                        <TableRow>
+                            <TableHead>#</TableHead>
+                            <TableHead>Apellido</TableHead>
+                            <TableHead>Nombre</TableHead>
+                            <TableHead>Acciones</TableHead>
                         </TableRow>
-                    ))}
                     </TableHeader>
                     <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                        <TableRow
-                            key={row.id}
-                            data-state={row.getIsSelected() && "selected"}
-                        >
-                            {row.getVisibleCells().map((cell) => (
-                            <TableCell key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </TableCell>
-                            ))}
-                        </TableRow>
+                    {guests.length ? (
+                        guests.map((guest, index) => (
+                            <TableRow key={guest.id}>
+                                <TableCell className="flex gap-1">{index + 1} {guest.is_leader ?
+                                    <Tooltip>
+                                    <TooltipTrigger>&#128081;</TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Va por su cuenta o es responsable de grupo.</p>
+                                    </TooltipContent>
+                                    </Tooltip>
+                                    :
+                                    <></>}
+                                </TableCell>
+                                <TableCell>{guest.lastname}</TableCell>
+                                <TableCell>{guest.name}</TableCell>
+                                <TableCell className="flex gap-3">
+                                    <EditGuestDialog guestId={guest.id.toString()} guestName={guest.name} guestLastname={guest.lastname} guestCompanionOf={guest.companion_of?.toString()} leaders={leaders} />
+                                    <DeleteGuestDialog id={guest.id} name={guest.name} lastname={guest.lastname} />
+                                    {guest.is_leader ? <GroupMembersDialog id={guest.id} name={guest.name} lastname={guest.lastname} guests={guests} /> : <></>}
+                                </TableCell>
+                            </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                        <TableCell className="h-24 text-center">
                             No hay invitados
                         </TableCell>
                         </TableRow>
@@ -65,30 +58,11 @@ export function GuestsDataTable<TData, TValue>({columns, data }: DataTableProps<
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-between space-x-2 py-4">
+            <div className="flex justify-start space-x-2 pt-2">
                 <a href={`${process.env.NEXT_PUBLIC_API_URL}/download-pdf`} rel="noopener noreferrer">
                     <Button variant="outline" size="sm">Descargar PDF</Button>
                 </a>
-                <div>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Anterior
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Siguiente
-                    </Button>
-                </div>
             </div>
-
         </div>
     )
 }

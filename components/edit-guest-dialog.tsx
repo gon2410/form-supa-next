@@ -8,21 +8,30 @@ import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Edit } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Props {
     guestId: string;
     guestName: string;
     guestLastname: string;
+    guestCompanionOf: string;
+    leaders: Guest[];
 }
 
-const EditGuestDialog = ({guestId, guestName, guestLastname}: Props) => {
-    const [id, setId] = useState<string>("");
-    const [name, setName] = useState<string>("");
-    const [lastname, setLastname] = useState<string>("");
-
+const EditGuestDialog = ({guestId, guestName, guestLastname, guestCompanionOf, leaders}: Props) => {
+    const [id, setId] = useState<string>();
+    const [name, setName] = useState<string>();
+    const [lastname, setLastname] = useState<string>();
+    const [leader, setLeader] = useState<string>();
     const [isEditing, setIsEditing] = useState<null | boolean>(false);
 
     const router = useRouter();
+
+    const getLeader = () => {
+        const foundLeader = leaders.find(leader => guestCompanionOf === leader.id.toString());
+        setLeader(foundLeader ? foundLeader.id.toString() : "");
+    }
+
     const editGuest = async() => {
         const response = await fetch("/api/update", {
             method: "POST",
@@ -54,6 +63,7 @@ const EditGuestDialog = ({guestId, guestName, guestLastname}: Props) => {
                 setId(guestId.toString());
                 setName(guestName);
                 setLastname(guestLastname);
+                getLeader();
             }}><Edit size={15} /></DialogTrigger>
             <DialogContent>
                 <DialogHeader>
@@ -70,6 +80,24 @@ const EditGuestDialog = ({guestId, guestName, guestLastname}: Props) => {
                         <Label htmlFor="lastname">Apellido</Label>
                         <Input id="lastname" value={lastname} onChange={(e) => {setLastname(e.target.value); setIsEditing(true)}} required/>
                     </div>
+
+                    {leader ?
+                        <div className="grid gap-1">
+                            <Label htmlFor="leader">Es acompañante de</Label>
+                            <Select value={leader} onValueChange={(value) => {setLeader(value)}} required>
+                                <SelectTrigger id="leader">
+                                    <SelectValue placeholder="Elegir" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {leaders.map(leader => (
+                                        <SelectItem key={leader.id} value={leader.id.toString()}>{leader.lastname}, {leader.name}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        :
+                        <></>
+                        }
 
                 </form>
                 <DialogFooter className="grid gap-5">
