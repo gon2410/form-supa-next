@@ -4,6 +4,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 interface Props {
     id: number;
@@ -40,15 +41,15 @@ const DeleteGuestDialog = ({id, name, lastname}: Props) => {
             <AlertDialogTrigger><Trash size={15}/></AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                <AlertDialogTitle>Esta seguro que desea eliminar a {name} {lastname}</AlertDialogTitle>
+                <AlertDialogTitle>Esta seguro que desea eliminar a {name} {lastname}?</AlertDialogTitle>
                 <AlertDialogDescription>
-                    El invitado será borrado de forma permanente
+                    <b>CUIDADO! El invitado será borrado de forma permanente.</b>
                 </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <form action={submitAction}>
-                    <AlertDialogAction type="submit" className="bg-destructive">Eliminar</AlertDialogAction>
+                    <Button type="submit" className="bg-destructive">Eliminar</Button>
                 </form>
                 </AlertDialogFooter>
             </AlertDialogContent>

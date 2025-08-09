@@ -58,7 +58,7 @@ export function ErrorDataTable<TData, TValue>({columns, data }: DataTableProps<T
                     ) : (
                         <TableRow>
                         <TableCell colSpan={columns.length} className="h-24 text-center">
-                            No hay errores
+                            No hay errores reportados &#128077;
                         </TableCell>
                         </TableRow>
                     )}
